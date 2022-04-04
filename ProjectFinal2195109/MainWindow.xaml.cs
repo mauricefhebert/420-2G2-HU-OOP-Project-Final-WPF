@@ -21,6 +21,7 @@ namespace ProjectFinal2195109
     /// </summary>
     public partial class MainWindow : Window
     {
+        FoodManagerDbContext dbContext = new FoodManagerDbContext();
         public MainWindow()
         {
             InitializeComponent();
@@ -69,8 +70,25 @@ namespace ProjectFinal2195109
         //Si l'utilisateur existe permet la navigation sinon lance une erreur
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
-            loginPage.Visibility = Visibility.Hidden;
-            recipeListPage.Visibility = Visibility.Visible;
+            User user = new User()
+            {
+                Username = txtUsernameLoginPage.Text,
+                Password = txtPasswordLoginPage.Password,
+            };
+            if (dbContext.Users.Any(u => u.Username == user.Username && u.Password == user.Password))
+            {
+                loginPage.Visibility = Visibility.Hidden;
+                recipeListPage.Visibility = Visibility.Visible;
+            }
+            else if (!dbContext.Users.Any(u => u.Username == user.Username))
+            {
+                MessageBox.Show("Utilisateur inexistant");
+            }
+            else if (dbContext.Users.Any(u => u.Username == user.Username && u.Password != user.Password))
+            {
+                MessageBox.Show("Mot de passe invalide");
+            }
+
         }
 
         //Create account page
