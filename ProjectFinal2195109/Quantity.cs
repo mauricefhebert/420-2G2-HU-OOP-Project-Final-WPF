@@ -5,6 +5,11 @@ namespace ProjectFinal2195109
 {
     public partial class Quantity
     {
+        public Quantity()
+        {
+            ListItems = new HashSet<ListItem>();
+        }
+
         public int QuantityId { get; set; }
         public double QuantityValue { get; set; }
         public int? RecipeId { get; set; }
@@ -14,5 +19,6 @@ namespace ProjectFinal2195109
         public virtual Ingrediant? Ingrediant { get; set; }
         public virtual Measurement? Measurement { get; set; }
         public virtual Recipe? Recipe { get; set; }
+        public virtual ICollection<ListItem> ListItems { get; set; }
     }
 }

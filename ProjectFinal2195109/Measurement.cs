@@ -11,7 +11,7 @@ namespace ProjectFinal2195109
         }
 
         public int MeasurementId { get; set; }
-        public int MeasurementUnit { get; set; }
+        public string MeasurementUnit { get; set; } = null!;
 
         public virtual ICollection<Quantity> Quantities { get; set; }
     }

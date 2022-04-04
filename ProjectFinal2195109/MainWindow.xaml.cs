@@ -25,6 +25,8 @@ namespace ProjectFinal2195109
         public MainWindow()
         {
             InitializeComponent();
+            User user = new User();
+            var myData = user.Recipes;
         }
 
         //Theme
