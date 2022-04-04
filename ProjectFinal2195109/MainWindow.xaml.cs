@@ -66,6 +66,13 @@ namespace ProjectFinal2195109
             createAccountPage.Visibility = Visibility.Visible;
         }
 
+        //Si l'utilisateur existe permet la navigation sinon lance une erreur
+        private void btnLogin_Click(object sender, RoutedEventArgs e)
+        {
+            loginPage.Visibility = Visibility.Hidden;
+            recipeListPage.Visibility = Visibility.Visible;
+        }
+
         //Create account page
 
         //Permet la navigation vers la page de connection
