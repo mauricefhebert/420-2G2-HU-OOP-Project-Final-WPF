@@ -10,6 +10,7 @@
     Height="800"
     AllowsTransparency="True"
     Background="{x:Null}"
+    Loaded="Window_Loaded"
     WindowStartupLocation="CenterScreen"
     WindowStyle="None"
     mc:Ignorable="d">
@@ -44,8 +45,8 @@
                         </StackPanel>
                         <Button
                             Margin="0,8,0,0"
-                            Content="Help Me"
-                            ToolTip="Having Trouble Logging In?" />
+                            Click="Button_Click"
+                            Content="Déconnection" />
                         <Button
                             x:Name="btn_exit"
                             Click="exitApp"
@@ -54,7 +55,7 @@
                     </StackPanel>
                 </materialDesign:PopupBox>
                 <!--  start of Main Content  -->
-                <Grid>
+                <Grid x:Name="Container">
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition />
@@ -64,7 +65,7 @@
                     <Grid
                         x:Name="loginPage"
                         Grid.Row="0"
-                        Visibility="Visible">
+                        Visibility="Hidden">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="1*" />
                             <RowDefinition Height="auto" />
@@ -89,6 +90,10 @@
                                 BorderThickness="2"
                                 FontSize="18"
                                 Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+                            <TextBlock
+                                x:Name="errorUsernameLogin"
+                                Style="{StaticResource errorMsg}"
+                                Text="Utilisateur inexistant" />
                             <PasswordBox
                                 x:Name="txtPasswordLoginPage"
                                 Width="300"
@@ -98,6 +103,10 @@
                                 BorderThickness="2"
                                 FontSize="18"
                                 Style="{StaticResource MaterialDesignOutlinedPasswordBox}" />
+                            <TextBlock
+                                x:Name="errorPasswordLogin"
+                                Style="{StaticResource errorMsg}"
+                                Text="Mot de passe invalide" />
                         </StackPanel>
                         <StackPanel Grid.Row="3">
                             <Button
@@ -107,9 +116,10 @@
                                 Margin="0,20,0,0"
                                 materialDesign:ButtonAssist.CornerRadius="10"
                                 materialDesign:ShadowAssist.ShadowDepth="Depth0"
+                                Click="btnLogin_Click"
                                 Content="Connection"
                                 FontSize="18"
-                                Style="{StaticResource MaterialDesignFlatMidBgButton}" Click="btnLogin_Click" />
+                                Style="{StaticResource MaterialDesignFlatMidBgButton}" />
                             <Button
                                 x:Name="btnSignup"
                                 Width="300"
@@ -129,12 +139,12 @@
                     <Grid
                         x:Name="createAccountPage"
                         Grid.Row="0"
-                        Visibility="Hidden">
+                        Visibility="Visible">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="1*" />
                             <RowDefinition Height="1*" />
-                            <RowDefinition Height="1*" />
-                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="3*" />
+                            <RowDefinition Height="2*" />
                         </Grid.RowDefinitions>
                         <Image
                             Grid.Row="0"
@@ -148,30 +158,39 @@
                             <TextBox
                                 x:Name="txtCourrielCreateAccountPage"
                                 Width="300"
-                                Margin="0,15,0,0"
+                                Margin="0,0,0,0"
                                 materialDesign:HintAssist.Hint="Courriel"
                                 BorderBrush="{DynamicResource MaterialDesignDivider}"
                                 BorderThickness="2"
                                 FontSize="18"
                                 Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+                            <TextBlock x:Name="errorEmailCreateAccount" Style="{StaticResource errorMsg}" />
                             <TextBox
                                 x:Name="txtUsernameCreateAccountPage"
                                 Width="300"
-                                Margin="0,15,0,0"
+                                Margin="0,0,0,0"
                                 materialDesign:HintAssist.Hint="Nom d'utilisateur"
                                 BorderBrush="{DynamicResource MaterialDesignDivider}"
                                 BorderThickness="2"
                                 FontSize="18"
                                 Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+                            <TextBlock
+                                x:Name="errorUsernameCreateAccount"
+                                Style="{StaticResource errorMsg}"
+                                Text="L'utilisateur entrée est associées a un compte" />
                             <PasswordBox
                                 x:Name="txtPasswordCreateAccountPage"
                                 Width="300"
-                                Margin="0,20,0,0"
+                                Margin="0,0,0,0"
                                 materialDesign:HintAssist.Hint="Mot de passe"
                                 BorderBrush="{DynamicResource MaterialDesignDivider}"
                                 BorderThickness="2"
                                 FontSize="18"
                                 Style="{StaticResource MaterialDesignOutlinedPasswordBox}" />
+                            <TextBlock
+                                x:Name="errorPasswordCreateAccount"
+                                Style="{StaticResource errorMsg}"
+                                Text="Le mot de passe dois etre entre 8 et 20 caracters" />
                         </StackPanel>
                         <StackPanel Grid.Row="3">
                             <Button
@@ -181,6 +200,7 @@
                                 Margin="0,20,0,0"
                                 materialDesign:ButtonAssist.CornerRadius="10"
                                 materialDesign:ShadowAssist.ShadowDepth="Depth0"
+                                Click="btnConfirmSignUp_Click"
                                 Content="Confirmer"
                                 FontSize="18"
                                 Style="{StaticResource MaterialDesignFlatMidBgButton}" />
