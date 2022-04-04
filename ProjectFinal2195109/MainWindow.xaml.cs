@@ -132,6 +132,7 @@ namespace ProjectFinal2195109
                 Username = txtUsernameCreateAccountPage.Text,
                 Password = txtPasswordCreateAccountPage.Password,
             };
+            //Si les trois fonction retourn true ajoute l'utilisateur dans la base de données et remet les textbox vide
             if (validationCourriel() && validationUsername() && validationPassword())
             {
                 dbContext.Users.Add(user);
@@ -144,6 +145,9 @@ namespace ProjectFinal2195109
             }
         }
 
+        /**
+         * Pour les trois fonction fait la validation du champs selon certain condition et affiche un message d'erreur
+         */
         public bool validationCourriel()
         {
             bool valid = false;
@@ -165,7 +169,6 @@ namespace ProjectFinal2195109
             }
             return valid;
         }
-
         public bool validationUsername()
         {
             bool valid = false;
@@ -187,7 +190,6 @@ namespace ProjectFinal2195109
             }
             return valid;
         }
-
         public bool validationPassword()
         {
             bool valid = false;
