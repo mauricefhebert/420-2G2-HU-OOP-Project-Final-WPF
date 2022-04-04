@@ -56,5 +56,23 @@ namespace ProjectFinal2195109
             base.OnMouseLeftButtonDown(e);
             DragMove();
         }
+
+        //Login page
+
+        //Permet la navigation vers la page de creation de compte
+        private void btnSignup_Click(object sender, RoutedEventArgs e)
+        {
+            loginPage.Visibility = Visibility.Hidden;
+            createAccountPage.Visibility = Visibility.Visible;
+        }
+
+        //Create account page
+
+        //Permet la navigation vers la page de connection
+        private void btnGoToLoginPage_Click(object sender, RoutedEventArgs e)
+        {
+            createAccountPage.Visibility = Visibility.Hidden;
+            loginPage.Visibility = Visibility.Visible;
+        }
     }
 }

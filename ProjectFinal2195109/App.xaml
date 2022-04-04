@@ -12,6 +12,20 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Indigo.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <!--  Start Personal Style  -->
+            <!--  Title  -->
+            <Style x:Key="title" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="30" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="Margin" Value="0,15,0,15" />
+            </Style>
+            <!--  Sub Title  -->
+            <Style x:Key="subTitle" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="20" />
+                <Setter Property="Foreground" Value="#333" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+            </Style>
+            <!--  End Personal Style  -->
         </ResourceDictionary>
     </Application.Resources>
 </Application>
