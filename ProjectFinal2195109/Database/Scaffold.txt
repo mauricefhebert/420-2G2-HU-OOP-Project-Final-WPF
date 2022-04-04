@@ -1,0 +1,7 @@
+Install-Package Microsoft.EntityFrameworkCore.SqlServer
+
+Install-Package Microsoft.EntityFrameworkCore.Tools
+
+Scaffold-DbContext -Connection "Data Source=.\SQLEXPRESS; Initial Catalog=FoodManager; Integrated Security=True;" -Provider  Microsoft.EntityFrameworkCore.SqlServer -Context "FoodManagerDbContext" –Force
+
+optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["FoodManagerConnection"].ConnectionString);
