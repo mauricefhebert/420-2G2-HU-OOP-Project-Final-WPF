@@ -143,16 +143,17 @@ namespace ProjectFinal2195109
                 recipeListPage.Visibility = Visibility.Visible;
             }
         }
+
         public bool validationCourriel()
         {
             bool valid = false;
-            User user = new User() { Email = txtCourrielCreateAccountPage.Text };
-            if (txtCourrielCreateAccountPage.Text == string.Empty)
+            var courriel = txtCourrielCreateAccountPage.Text;
+            if (courriel == string.Empty)
             {
                 errorEmailCreateAccount.Visibility = Visibility.Visible;
                 errorEmailCreateAccount.Text = "Le courriel ne peu etre vide";
             }
-            else if (dbContext.Users.Any(u => u.Email == user.Email))
+            else if (dbContext.Users.Any(u => u.Email == courriel))
             {
                 errorEmailCreateAccount.Visibility = Visibility.Visible;
                 errorEmailCreateAccount.Text = "Le courriel entrée est associées a un compte";
@@ -168,13 +169,13 @@ namespace ProjectFinal2195109
         public bool validationUsername()
         {
             bool valid = false;
-            var user = new User() { Username = txtUsernameCreateAccountPage.Text };
-            if (txtUsernameCreateAccountPage.Text == string.Empty)
+            var Username = txtUsernameCreateAccountPage.Text;
+            if (Username == string.Empty)
             {
                 errorUsernameCreateAccount.Visibility = Visibility.Visible;
                 errorUsernameCreateAccount.Text = "Le nom d'utilisateur ne peu etre vide";
             }
-            else if (dbContext.Users.Any(u => u.Username == user.Username))
+            else if (dbContext.Users.Any(u => u.Username == Username))
             {
                 errorUsernameCreateAccount.Visibility = Visibility.Visible;
                 errorUsernameCreateAccount.Text = "L'utilisateur entrée est associées a un compte";
@@ -190,12 +191,8 @@ namespace ProjectFinal2195109
         public bool validationPassword()
         {
             bool valid = false;
-            if (txtPasswordCreateAccountPage.Password == string.Empty)
-            {
-                errorPasswordCreateAccount.Visibility = Visibility.Visible;
-                errorPasswordCreateAccount.Text = "Le mot de passe ne peu etre vide";
-            }
-            else if (txtPasswordCreateAccountPage.Password.Length < 8 || txtPasswordCreateAccountPage.Password.Length > 20)
+            var Password = txtPasswordCreateAccountPage.Password;
+            if (Password.Length < 8 || Password.Length > 20)
             {
                 errorPasswordCreateAccount.Visibility = Visibility.Visible;
                 errorPasswordCreateAccount.Text = "Le mot de passe dois etre entre 8 et 20 caracters";
