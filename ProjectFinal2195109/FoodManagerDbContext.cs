@@ -19,8 +19,6 @@ namespace ProjectFinal2195109
 
         public virtual DbSet<Ingrediant> Ingrediants { get; set; } = null!;
         public virtual DbSet<ListItem> ListItems { get; set; } = null!;
-        public virtual DbSet<Measurement> Measurements { get; set; } = null!;
-        public virtual DbSet<Quantity> Quantities { get; set; } = null!;
         public virtual DbSet<Recipe> Recipes { get; set; } = null!;
         public virtual DbSet<ShoppingList> ShoppingLists { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
@@ -30,7 +28,6 @@ namespace ProjectFinal2195109
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["FoodManagerConnection"].ConnectionString);
-                //optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["FoodManagerConnectionSchool"].ConnectionString);
             }
         }
 
@@ -40,77 +37,50 @@ namespace ProjectFinal2195109
             {
                 entity.ToTable("Ingrediant");
 
+                entity.HasIndex(e => e.RecipeId, "idx_RecipeID");
+
                 entity.Property(e => e.IngrediantId).HasColumnName("IngrediantID");
+
+                entity.Property(e => e.IngrediantMeasurementUnit)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.IngrediantName)
                     .HasMaxLength(50)
                     .IsUnicode(false);
+
+                entity.Property(e => e.RecipeId).HasColumnName("RecipeID");
+
+                entity.HasOne(d => d.Recipe)
+                    .WithMany(p => p.Ingrediants)
+                    .HasForeignKey(d => d.RecipeId)
+                    .HasConstraintName("FK__Ingredian__Recip__3D5E1FD2");
             });
 
             modelBuilder.Entity<ListItem>(entity =>
             {
                 entity.ToTable("List_Item");
 
+                entity.HasIndex(e => e.IngrediantId, "idx_IngrediantID");
+
                 entity.HasIndex(e => e.ShoppingListId, "idx_ShoppingListID");
 
                 entity.Property(e => e.ListItemId).HasColumnName("ListItemID");
 
-                entity.Property(e => e.QuantityId).HasColumnName("QuantityID");
+                entity.Property(e => e.IngrediantId).HasColumnName("IngrediantID");
 
                 entity.Property(e => e.ShoppingListId).HasColumnName("ShoppingListID");
 
-                entity.HasOne(d => d.Quantity)
+                entity.HasOne(d => d.Ingrediant)
                     .WithMany(p => p.ListItems)
-                    .HasForeignKey(d => d.QuantityId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_QuantityID");
+                    .HasForeignKey(d => d.IngrediantId)
+                    .HasConstraintName("FK__List_Item__Ingre__440B1D61");
 
                 entity.HasOne(d => d.ShoppingList)
                     .WithMany(p => p.ListItems)
                     .HasForeignKey(d => d.ShoppingListId)
-                    .HasConstraintName("FK__List_Item__Shopp__3E52440B");
-            });
-
-            modelBuilder.Entity<Measurement>(entity =>
-            {
-                entity.ToTable("Measurement");
-
-                entity.HasIndex(e => e.MeasurementUnit, "UQ__Measurem__D3AE278A66FBB20C")
-                    .IsUnique();
-
-                entity.Property(e => e.MeasurementId).HasColumnName("MeasurementID");
-
-                entity.Property(e => e.MeasurementUnit)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
-            });
-
-            modelBuilder.Entity<Quantity>(entity =>
-            {
-                entity.ToTable("Quantity");
-
-                entity.Property(e => e.QuantityId).HasColumnName("QuantityID");
-
-                entity.Property(e => e.IngrediantId).HasColumnName("IngrediantID");
-
-                entity.Property(e => e.MeasurementId).HasColumnName("MeasurementID");
-
-                entity.Property(e => e.RecipeId).HasColumnName("RecipeID");
-
-                entity.HasOne(d => d.Ingrediant)
-                    .WithMany(p => p.Quantities)
-                    .HasForeignKey(d => d.IngrediantId)
-                    .HasConstraintName("FK__Quantity__Ingred__73BA3083");
-
-                entity.HasOne(d => d.Measurement)
-                    .WithMany(p => p.Quantities)
-                    .HasForeignKey(d => d.MeasurementId)
-                    .HasConstraintName("FK__Quantity__Measur__74AE54BC");
-
-                entity.HasOne(d => d.Recipe)
-                    .WithMany(p => p.Quantities)
-                    .HasForeignKey(d => d.RecipeId)
-                    .HasConstraintName("FK__Quantity__Recipe__72C60C4A");
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK__List_Item__Shopp__4316F928");
             });
 
             modelBuilder.Entity<Recipe>(entity =>
@@ -134,7 +104,8 @@ namespace ProjectFinal2195109
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Recipes)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__Recipe__UserID__412EB0B6");
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK__Recipe__UserID__3A81B327");
             });
 
             modelBuilder.Entity<ShoppingList>(entity =>
@@ -150,15 +121,15 @@ namespace ProjectFinal2195109
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.ShoppingLists)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__Shopping___UserI__3B75D760");
+                    .HasConstraintName("FK__Shopping___UserI__403A8C7D");
             });
 
             modelBuilder.Entity<User>(entity =>
             {
-                entity.HasIndex(e => e.Email, "UNIQUE_EMAIL")
+                entity.HasIndex(e => e.Username, "UQ__Users__536C85E43AB846F0")
                     .IsUnique();
 
-                entity.HasIndex(e => e.Username, "UQ__Users__536C85E4057A9774")
+                entity.HasIndex(e => e.Email, "UQ__Users__A9D105349CAB259D")
                     .IsUnique();
 
                 entity.HasIndex(e => e.Email, "idx_UserEmail");

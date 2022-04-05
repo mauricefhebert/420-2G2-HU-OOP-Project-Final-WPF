@@ -21,222 +21,223 @@
         Background="{DynamicResource MaterialDesignPaper}"
         UniformCornerRadius="15">
         <materialDesign:DialogHost x:Name="DialogHost" CloseOnClickAway="True">
-            
-                <StackPanel>
-                    <!--  Header  -->
-                    <materialDesign:PopupBox
-                        Height="25"
-                        Margin="0,20,20,0"
-                        HorizontalAlignment="Right"
-                        PlacementMode="BottomAndAlignRightEdges"
-                        StaysOpen="False">
-                        <StackPanel>
-                            <StackPanel
-                                Margin="16,10,0,6"
-                                HorizontalAlignment="Center"
-                                Orientation="Horizontal">
-                                <TextBlock VerticalAlignment="Center" Text="Dark Mode" />
-                                <ToggleButton
-                                    x:Name="themeToggle"
-                                    Margin="12,0,8,0"
-                                    Click="toggleTheme"
-                                    Cursor="Hand"
-                                    IsChecked="{Binding IsDarkTheme}"
-                                    ToolTip="Enable Dark Mode" />
-                            </StackPanel>
-                            <Button
-                                Margin="0,8,0,0"
-                                Click="Button_Click"
-                                Content="Déconnection" />
-                            <Button
-                                x:Name="btn_exit"
-                                Click="exitApp"
-                                Content="Exit Application"
-                                ToolTip="Close Application" />
+
+            <StackPanel>
+                <!--  Header  -->
+                <materialDesign:PopupBox
+                    Height="25"
+                    Margin="0,20,20,0"
+                    HorizontalAlignment="Right"
+                    PlacementMode="BottomAndAlignRightEdges"
+                    StaysOpen="False">
+                    <StackPanel>
+                        <StackPanel
+                            Margin="16,10,0,6"
+                            HorizontalAlignment="Center"
+                            Orientation="Horizontal">
+                            <TextBlock VerticalAlignment="Center" Text="Dark Mode" />
+                            <ToggleButton
+                                x:Name="themeToggle"
+                                Margin="12,0,8,0"
+                                Click="toggleTheme"
+                                Cursor="Hand"
+                                IsChecked="{Binding IsDarkTheme}"
+                                ToolTip="Enable Dark Mode" />
                         </StackPanel>
-                    </materialDesign:PopupBox>
-                    <!--  start of Main Content  -->
-                
-                    <Grid x:Name="Container">
-                        <Grid.RowDefinitions>
+                        <Button
+                            Margin="0,8,0,0"
+                            Click="Button_Click"
+                            Content="Déconnection" />
+                        <Button
+                            x:Name="btn_exit"
+                            Click="exitApp"
+                            Content="Exit Application"
+                            ToolTip="Close Application" />
+                    </StackPanel>
+                </materialDesign:PopupBox>
+                <!--  start of Main Content  -->
+
+                <Grid x:Name="Container">
+                    <Grid.RowDefinitions>
                         <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
-                        
-                        <!--  Start of Login page  -->
-                        <Grid
-                            x:Name="loginPage"
-                            Grid.Row="0"
-                            Visibility="Hidden">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="1*" />
-                                <RowDefinition Height="auto" />
-                                <RowDefinition Height="1*" />
-                                <RowDefinition Height="1*" />
-                            </Grid.RowDefinitions>
-                            <Image
-                                Grid.Row="0"
-                                Height="100"
-                                Margin="0,50,0,0"
-                                Source="image/burger.png" />
-                            <StackPanel Grid.Row="1">
-                                <TextBlock Style="{StaticResource title}" Text="Connectez-vous" />
-                            </StackPanel>
-                            <StackPanel x:Name="LoginForm" Grid.Row="2">
-                                <TextBox
-                                    x:Name="txtUsernameLoginPage"
-                                    Width="300"
-                                    Margin="0,15,0,0"
-                                    materialDesign:HintAssist.Hint="Nom d'utilisateur"
-                                    BorderBrush="{DynamicResource MaterialDesignDivider}"
-                                    BorderThickness="2"
-                                    FontSize="18"
-                                    Style="{StaticResource MaterialDesignOutlinedTextBox}" />
-                                <TextBlock
-                                    x:Name="errorUsernameLogin"
-                                    Style="{StaticResource errorMsg}"
-                                    Text="Utilisateur inexistant" />
-                                <PasswordBox
-                                    x:Name="txtPasswordLoginPage"
-                                    Width="300"
-                                    Margin="0,20,0,0"
-                                    materialDesign:HintAssist.Hint="Mot de passe"
-                                    BorderBrush="{DynamicResource MaterialDesignDivider}"
-                                    BorderThickness="2"
-                                    FontSize="18"
-                                    Style="{StaticResource MaterialDesignOutlinedPasswordBox}" />
-                                <TextBlock
-                                    x:Name="errorPasswordLogin"
-                                    Style="{StaticResource errorMsg}"
-                                    Text="Mot de passe invalide" />
-                            </StackPanel>
-                            <StackPanel Grid.Row="3">
-                                <Button
-                                    x:Name="btnLogin"
-                                    Width="300"
-                                    Height="53"
-                                    Margin="0,20,0,0"
-                                    materialDesign:ButtonAssist.CornerRadius="10"
-                                    materialDesign:ShadowAssist.ShadowDepth="Depth0"
-                                    Click="btnLogin_Click"
-                                    Content="Connection"
-                                    FontSize="18"
-                                    Style="{StaticResource MaterialDesignFlatMidBgButton}" />
-                                <Button
-                                    x:Name="btnSignup"
-                                    Width="300"
-                                    Height="53"
-                                    Margin="0,20,0,0"
-                                    materialDesign:ButtonAssist.CornerRadius="10"
-                                    materialDesign:ShadowAssist.ShadowDepth="Depth0"
-                                    Click="btnSignup_Click"
-                                    Content="Créer un compte"
-                                    FontSize="18"
-                                    Style="{StaticResource MaterialDesignFlatButton}" />
-                            </StackPanel>
-                        </Grid>
-                        <!--  End of Login page  -->
 
-                        <!--  Start of Create Account page  -->
-                        <Grid
-                            x:Name="createAccountPage"
+                    <!--  Start of Login page  -->
+                    <Grid
+                        x:Name="loginPage"
+                        Grid.Row="0"
+                        Visibility="Hidden">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="1*" />
+                        </Grid.RowDefinitions>
+                        <Image
                             Grid.Row="0"
-                            Visibility="Hidden">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="1*" />
-                                <RowDefinition Height="1*" />
-                                <RowDefinition Height="3*" />
-                                <RowDefinition Height="2*" />
-                            </Grid.RowDefinitions>
-                            <Image
-                                Grid.Row="0"
-                                Height="100"
-                                Margin="0,50,0,0"
-                                Source="image/burger.png" />
-                            <StackPanel Grid.Row="1">
-                                <TextBlock Style="{StaticResource title}" Text="Créer votre compte" />
-                            </StackPanel>
-                            <StackPanel x:Name="CreateAccountForm" Grid.Row="2">
-                                <TextBox
-                                    x:Name="txtCourrielCreateAccountPage"
-                                    Width="300"
-                                    Margin="0,0,0,0"
-                                    materialDesign:HintAssist.Hint="Courriel"
-                                    BorderBrush="{DynamicResource MaterialDesignDivider}"
-                                    BorderThickness="2"
-                                    FontSize="18"
-                                    Style="{StaticResource MaterialDesignOutlinedTextBox}" />
-                                <TextBlock x:Name="errorEmailCreateAccount" Style="{StaticResource errorMsg}" />
-                                <TextBox
-                                    x:Name="txtUsernameCreateAccountPage"
-                                    Width="300"
-                                    Margin="0,0,0,0"
-                                    materialDesign:HintAssist.Hint="Nom d'utilisateur"
-                                    BorderBrush="{DynamicResource MaterialDesignDivider}"
-                                    BorderThickness="2"
-                                    FontSize="18"
-                                    Style="{StaticResource MaterialDesignOutlinedTextBox}" />
-                                <TextBlock
-                                    x:Name="errorUsernameCreateAccount"
-                                    Style="{StaticResource errorMsg}"
-                                    Text="L'utilisateur entrée est associées a un compte" />
-                                <PasswordBox
-                                    x:Name="txtPasswordCreateAccountPage"
-                                    Width="300"
-                                    Margin="0,0,0,0"
-                                    materialDesign:HintAssist.Hint="Mot de passe"
-                                    BorderBrush="{DynamicResource MaterialDesignDivider}"
-                                    BorderThickness="2"
-                                    FontSize="18"
-                                    Style="{StaticResource MaterialDesignOutlinedPasswordBox}" />
-                                <TextBlock
-                                    x:Name="errorPasswordCreateAccount"
-                                    Style="{StaticResource errorMsg}"
-                                    Text="Le mot de passe dois etre entre 8 et 20 caracters" />
-                            </StackPanel>
-                            <StackPanel Grid.Row="3">
-                                <Button
-                                    x:Name="btnConfirmSignUp"
-                                    Width="300"
-                                    Height="53"
-                                    Margin="0,20,0,0"
-                                    materialDesign:ButtonAssist.CornerRadius="10"
-                                    materialDesign:ShadowAssist.ShadowDepth="Depth0"
-                                    Click="btnConfirmSignUp_Click"
-                                    Content="Confirmer"
-                                    FontSize="18"
-                                    Style="{StaticResource MaterialDesignFlatMidBgButton}" />
-                                <TextBlock
-                                    Margin="0,20,0,0"
-                                    HorizontalAlignment="Center"
-                                    FontSize="12"
-                                    Foreground="#333"
-                                    Text="vous possèdez deja un compte? Connectez-vous" />
-                                <Button
-                                    x:Name="btnGoToLoginPage"
-                                    Width="100"
-                                    Height="25"
-                                    Margin="0,10,0,0"
-                                    materialDesign:ButtonAssist.CornerRadius="10"
-                                    materialDesign:ShadowAssist.ShadowDepth="Depth0"
-                                    Click="btnGoToLoginPage_Click"
-                                    Content="Connection"
-                                    FontSize="12"
-                                    Style="{StaticResource MaterialDesignFlatButton}" />
-                            </StackPanel>
-                        </Grid>
-                        <!--  End of Create Account page  -->
+                            Height="100"
+                            Margin="0,50,0,0"
+                            Source="image/burger.png" />
+                        <StackPanel Grid.Row="1">
+                            <TextBlock Style="{StaticResource title}" Text="Connectez-vous" />
+                        </StackPanel>
+                        <StackPanel x:Name="LoginForm" Grid.Row="2">
+                            <TextBox
+                                x:Name="txtUsernameLoginPage"
+                                Width="300"
+                                Margin="0,15,0,0"
+                                materialDesign:HintAssist.Hint="Nom d'utilisateur"
+                                BorderBrush="{DynamicResource MaterialDesignDivider}"
+                                BorderThickness="2"
+                                FontSize="18"
+                                Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+                            <TextBlock
+                                x:Name="errorUsernameLogin"
+                                Style="{StaticResource errorMsg}"
+                                Text="Utilisateur inexistant" />
+                            <PasswordBox
+                                x:Name="txtPasswordLoginPage"
+                                Width="300"
+                                Margin="0,20,0,0"
+                                materialDesign:HintAssist.Hint="Mot de passe"
+                                BorderBrush="{DynamicResource MaterialDesignDivider}"
+                                BorderThickness="2"
+                                FontSize="18"
+                                Style="{StaticResource MaterialDesignOutlinedPasswordBox}" />
+                            <TextBlock
+                                x:Name="errorPasswordLogin"
+                                Style="{StaticResource errorMsg}"
+                                Text="Mot de passe invalide" />
+                        </StackPanel>
+                        <StackPanel Grid.Row="3">
+                            <Button
+                                x:Name="btnLogin"
+                                Width="300"
+                                Height="53"
+                                Margin="0,20,0,0"
+                                materialDesign:ButtonAssist.CornerRadius="10"
+                                materialDesign:ShadowAssist.ShadowDepth="Depth0"
+                                Click="btnLogin_Click"
+                                Content="Connection"
+                                FontSize="18"
+                                Style="{StaticResource MaterialDesignFlatMidBgButton}" />
+                            <Button
+                                x:Name="btnSignup"
+                                Width="300"
+                                Height="53"
+                                Margin="0,20,0,0"
+                                materialDesign:ButtonAssist.CornerRadius="10"
+                                materialDesign:ShadowAssist.ShadowDepth="Depth0"
+                                Click="btnSignup_Click"
+                                Content="Créer un compte"
+                                FontSize="18"
+                                Style="{StaticResource MaterialDesignFlatButton}" />
+                        </StackPanel>
+                    </Grid>
+                    <!--  End of Login page  -->
 
-                        <!--  Start of Recipe List page  -->
-                        <Grid
-                            x:Name="recipeListPage"
+                    <!--  Start of Create Account page  -->
+                    <Grid
+                        x:Name="createAccountPage"
+                        Grid.Row="0"
+                        Visibility="Hidden">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="3*" />
+                            <RowDefinition Height="2*" />
+                        </Grid.RowDefinitions>
+                        <Image
                             Grid.Row="0"
-                            Visibility="Visible">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="655" />
-                                <RowDefinition Height="auto" />
-                            </Grid.RowDefinitions>
+                            Height="100"
+                            Margin="0,50,0,0"
+                            Source="image/burger.png" />
+                        <StackPanel Grid.Row="1">
+                            <TextBlock Style="{StaticResource title}" Text="Créer votre compte" />
+                        </StackPanel>
+                        <StackPanel x:Name="CreateAccountForm" Grid.Row="2">
+                            <TextBox
+                                x:Name="txtCourrielCreateAccountPage"
+                                Width="300"
+                                Margin="0,0,0,0"
+                                materialDesign:HintAssist.Hint="Courriel"
+                                BorderBrush="{DynamicResource MaterialDesignDivider}"
+                                BorderThickness="2"
+                                FontSize="18"
+                                Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+                            <TextBlock x:Name="errorEmailCreateAccount" Style="{StaticResource errorMsg}" />
+                            <TextBox
+                                x:Name="txtUsernameCreateAccountPage"
+                                Width="300"
+                                Margin="0,0,0,0"
+                                materialDesign:HintAssist.Hint="Nom d'utilisateur"
+                                BorderBrush="{DynamicResource MaterialDesignDivider}"
+                                BorderThickness="2"
+                                FontSize="18"
+                                Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+                            <TextBlock
+                                x:Name="errorUsernameCreateAccount"
+                                Style="{StaticResource errorMsg}"
+                                Text="L'utilisateur entrée est associées a un compte" />
+                            <PasswordBox
+                                x:Name="txtPasswordCreateAccountPage"
+                                Width="300"
+                                Margin="0,0,0,0"
+                                materialDesign:HintAssist.Hint="Mot de passe"
+                                BorderBrush="{DynamicResource MaterialDesignDivider}"
+                                BorderThickness="2"
+                                FontSize="18"
+                                Style="{StaticResource MaterialDesignOutlinedPasswordBox}" />
+                            <TextBlock
+                                x:Name="errorPasswordCreateAccount"
+                                Style="{StaticResource errorMsg}"
+                                Text="Le mot de passe dois etre entre 8 et 20 caracters" />
+                        </StackPanel>
+                        <StackPanel Grid.Row="3">
+                            <Button
+                                x:Name="btnConfirmSignUp"
+                                Width="300"
+                                Height="53"
+                                Margin="0,20,0,0"
+                                materialDesign:ButtonAssist.CornerRadius="10"
+                                materialDesign:ShadowAssist.ShadowDepth="Depth0"
+                                Click="btnConfirmSignUp_Click"
+                                Content="Confirmer"
+                                FontSize="18"
+                                Style="{StaticResource MaterialDesignFlatMidBgButton}" />
+                            <TextBlock
+                                Margin="0,20,0,0"
+                                HorizontalAlignment="Center"
+                                FontSize="12"
+                                Foreground="#333"
+                                Text="vous possèdez deja un compte? Connectez-vous" />
+                            <Button
+                                x:Name="btnGoToLoginPage"
+                                Width="100"
+                                Height="25"
+                                Margin="0,10,0,0"
+                                materialDesign:ButtonAssist.CornerRadius="10"
+                                materialDesign:ShadowAssist.ShadowDepth="Depth0"
+                                Click="btnGoToLoginPage_Click"
+                                Content="Connection"
+                                FontSize="12"
+                                Style="{StaticResource MaterialDesignFlatButton}" />
+                        </StackPanel>
+                    </Grid>
+                    <!--  End of Create Account page  -->
+
+                    <!--  Start of Recipe List page  -->
+                    <Grid
+                        x:Name="recipeListPage"
+                        Grid.Row="0"
+                        Visibility="Hidden">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="580" />
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="1*" />
+                        </Grid.RowDefinitions>
                         <ScrollViewer>
-                            <StackPanel Grid.Row="0" x:Name="recipeList">
+                            <StackPanel x:Name="recipeList" Grid.Row="0">
                                 <!--  Recipe Item Start  -->
                                 <Grid Margin="20,20">
                                     <Grid.RowDefinitions>
@@ -275,7 +276,6 @@
                                             Margin="0,0,20,0"
                                             FontSize="14"
                                             Text="Cook Time: 1h30" />
-
                                     </StackPanel>
                                     <CheckBox
                                         Grid.Row="1"
@@ -286,38 +286,52 @@
                                 <!--  Recipe Item End  -->
                             </StackPanel>
                         </ScrollViewer>
-                        <Grid Grid.Row="1">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <Button
-                                    x:Name="btnGoToRecipePage"
-                                    Grid.Column="0"
-                                    Height="53"
-                                    materialDesign:ButtonAssist.CornerRadius="10"
-                                    Content="Recette"
-                                    FontSize="18"
-                                    Style="{StaticResource MaterialDesignFlatMidBgButton}" Click="btnGoToRecipePage_Click" />
-                                <Button
-                                    x:Name="btnGoToShoppingList"
-                                    Grid.Column="1"
-                                    Height="53"
-                                    materialDesign:ButtonAssist.CornerRadius="10"
-                                    Content="Liste d'épicerie"
-                                    FontSize="18"
-                                    Style="{StaticResource MaterialDesignFlatButton}" />
-                            </Grid>
+                        <Button
+                            x:Name="btnAddRecipeCreation"
+                            Grid.Row="1"
+                            Width="220"
+                            Height="35"
+                            Margin="0,20,0,20"
+                            VerticalAlignment="Bottom"
+                            materialDesign:ButtonAssist.CornerRadius="10"
+                            Click="btnAddRecipeCreation_Click"
+                            Content="Ajouter une recette"
+                            FontSize="18"
+                            Style="{StaticResource MaterialDesignFlatMidBgButton}" />
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Button
+                                x:Name="btnGoToRecipePage"
+                                Grid.Column="0"
+                                Height="53"
+                                VerticalAlignment="Bottom"
+                                materialDesign:ButtonAssist.CornerRadius="10"
+                                Click="btnGoToRecipePage_Click"
+                                Content="Recette"
+                                FontSize="18"
+                                Style="{StaticResource MaterialDesignFlatMidBgButton}" />
+                            <Button
+                                x:Name="btnGoToShoppingList"
+                                Grid.Column="1"
+                                Height="53"
+                                materialDesign:ButtonAssist.CornerRadius="10"
+                                Content="Liste d'épicerie"
+                                FontSize="18"
+                                Style="{StaticResource MaterialDesignFlatButton}" />
                         </Grid>
-                        <!--  End of Recipe List page  -->
+                    </Grid>
+                    <!--  End of Recipe List page  -->
 
-                        <!--  Start of Recipe Creation page  -->
+                    <!--  Start of Recipe Creation page  -->
                     <Grid
-                            x:Name="recipeCreationPage"
-                            Grid.Row="0"
-                            Visibility="Hidden">
+                        x:Name="recipeCreationPage"
+                        Grid.Row="0"
+                        Visibility="Visible">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="525" />
+                            <RowDefinition Height="540" />
                             <RowDefinition Height="1*" />
                             <RowDefinition Height="1*" />
                         </Grid.RowDefinitions>
@@ -342,33 +356,41 @@
                                     BorderThickness="2"
                                     FontSize="18"
                                     Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+
                                 <TextBox
                                     x:Name="txtRecipePortionsCreateRecipePage"
                                     Width="300"
-                                    Margin="0,15,0,0"
+                                    Margin="0,15,10,0"
                                     materialDesign:HintAssist.Hint="Portion"
                                     BorderBrush="{DynamicResource MaterialDesignDivider}"
                                     BorderThickness="2"
                                     FontSize="18"
                                     Style="{StaticResource MaterialDesignOutlinedTextBox}" />
-                                <TextBox
-                                    x:Name="txtRecipePrepTimeCreateRecipePage"
-                                    Width="300"
-                                    Margin="0,15,0,0"
-                                    materialDesign:HintAssist.Hint="Prep Time"
-                                    BorderBrush="{DynamicResource MaterialDesignDivider}"
-                                    BorderThickness="2"
-                                    FontSize="18"
-                                    Style="{StaticResource MaterialDesignOutlinedTextBox}" />
-                                <TextBox
-                                    x:Name="txtRecipeCookTimeCreateRecipePage"
-                                    Width="300"
-                                    Margin="0,15,0,0"
-                                    materialDesign:HintAssist.Hint="Cook Time"
-                                    BorderBrush="{DynamicResource MaterialDesignDivider}"
-                                    BorderThickness="2"
-                                    FontSize="18"
-                                    Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+                                <Grid Width="300">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox
+                                        x:Name="txtRecipePrepTimeCreateRecipePage"
+                                        Grid.Column="0"
+                                        Margin="0,15,10,0"
+                                        materialDesign:HintAssist.Hint="Prep Time"
+                                        BorderBrush="{DynamicResource MaterialDesignDivider}"
+                                        BorderThickness="2"
+                                        FontSize="18"
+                                        Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+
+                                    <TextBox
+                                        x:Name="txtRecipeCookTimeCreateRecipePage"
+                                        Grid.Column="1"
+                                        Margin="10,15,0,0"
+                                        materialDesign:HintAssist.Hint="Cook Time"
+                                        BorderBrush="{DynamicResource MaterialDesignDivider}"
+                                        BorderThickness="2"
+                                        FontSize="18"
+                                        Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+                                </Grid>
                                 <TextBox
                                     x:Name="txtRecipeIngrediantCreateRecipePage"
                                     Width="300"
@@ -378,49 +400,72 @@
                                     BorderThickness="2"
                                     FontSize="18"
                                     Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+                                <Grid Width="300">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox
+                                        x:Name="txtRecipeQuantityCreateRecipePage"
+                                        Grid.Column="0"
+                                        Margin="0,15,10,0"
+                                        materialDesign:HintAssist.Hint="Quantité"
+                                        BorderBrush="{DynamicResource MaterialDesignDivider}"
+                                        BorderThickness="2"
+                                        FontSize="18"
+                                        Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+                                    <TextBox
+                                        x:Name="txtRecipeUnitCreateRecipePage"
+                                        Grid.Column="1"
+                                        Margin="10,15,0,0"
+                                        materialDesign:HintAssist.Hint="Mesure"
+                                        BorderBrush="{DynamicResource MaterialDesignDivider}"
+                                        BorderThickness="2"
+                                        FontSize="18"
+                                        Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+                                </Grid>
                                 <!--  Recipe Creation Form End  -->
-                                
-                        </StackPanel>
-            </ScrollViewer>
-            <Button
-                                Grid.Row="1"
-                                    x:Name="btnAddIngrediantRecipeCreation"
-                                    Width="220"
-                                    Height="35"
-                                    Margin="0,40,0,40"
-                                    materialDesign:ButtonAssist.CornerRadius="10"
-                                    Click="btnAddIngrediantRecipeCreation_Click"
-                                    Content="Ajouter un ingrediant"
-                                    FontSize="18"
-                                    Style="{StaticResource MaterialDesignFlatMidBgButton}" />
-                            <Grid Grid.Row="2">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <Button
-                                    x:Name="btnConfirmRecipeCreation"
-                                    Grid.Column="0"
-                                    Height="53"
-                                    materialDesign:ButtonAssist.CornerRadius="10"
-                                    Click="btnConfirmRecipeCreation_Click"
-                                    Content="Confirmer"
-                                    FontSize="18"
-                                    Style="{StaticResource MaterialDesignFlatMidBgButton}" />
-                                <Button
-                                    x:Name="btnCancelRecipeCreation"
-                                    Grid.Column="1"
-                                    Height="53"
-                                    materialDesign:ButtonAssist.CornerRadius="10"
-                                    Click="btnCancelRecipeCreation_Click"
-                                    Content="Annuler"
-                                    FontSize="18"
-                                    Style="{StaticResource MaterialDesignFlatButton}" />
-                            </Grid>
+                            </StackPanel>
+                        </ScrollViewer>
+                        <Button
+                            x:Name="btnAddIngrediantRecipeCreation"
+                            Grid.Row="1"
+                            Width="220"
+                            Height="35"
+                            Margin="0,40,0,40"
+                            materialDesign:ButtonAssist.CornerRadius="10"
+                            Click="btnAddIngrediantRecipeCreation_Click"
+                            Content="Ajouter un ingrediant"
+                            FontSize="18"
+                            Style="{StaticResource MaterialDesignFlatMidBgButton}" />
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Button
+                                x:Name="btnConfirmRecipeCreation"
+                                Grid.Column="0"
+                                Height="53"
+                                materialDesign:ButtonAssist.CornerRadius="10"
+                                Click="btnConfirmRecipeCreation_Click"
+                                Content="Confirmer"
+                                FontSize="18"
+                                Style="{StaticResource MaterialDesignFlatMidBgButton}" />
+                            <Button
+                                x:Name="btnCancelRecipeCreation"
+                                Grid.Column="1"
+                                Height="53"
+                                materialDesign:ButtonAssist.CornerRadius="10"
+                                Click="btnCancelRecipeCreation_Click"
+                                Content="Annuler"
+                                FontSize="18"
+                                Style="{StaticResource MaterialDesignFlatButton}" />
                         </Grid>
-                        <!--  End of Recipe Creation page  -->
                     </Grid>
-                    <!--  End of Main Content  -->
+                    <!--  End of Recipe Creation page  -->
+                </Grid>
+                <!--  End of Main Content  -->
 
             </StackPanel>
 

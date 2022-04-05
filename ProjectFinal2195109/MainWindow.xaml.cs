@@ -223,7 +223,7 @@ namespace ProjectFinal2195109
         }
 
         //Recipe List page
-        public void createRecipeList()
+        public void displayRecipeList()
         {
             foreach (Recipe recipe in dbContext.Recipes.Where(u => u.UserId == currentUserNumber))
             {
@@ -253,6 +253,9 @@ namespace ProjectFinal2195109
                     //Add the column to the definition
                     grid.ColumnDefinitions.Add(colDef1);
                     grid.ColumnDefinitions.Add(colDef2);
+
+                    //Set the width of the grid column
+                    colDef2.Width = new GridLength(0, GridUnitType.Auto);
 
                     //Create the textblock for the title
                     TextBlock title = new TextBlock();
@@ -308,7 +311,6 @@ namespace ProjectFinal2195109
                     checkBox.Height = 40;
 
                     grid.Children.Add(checkBox);
-
                     recipeList.Children.Add(grid);
                 }
             }
@@ -316,9 +318,15 @@ namespace ProjectFinal2195109
             //need to find  wait to set the width of the column
         }
 
+        private void btnAddRecipeCreation_Click(object sender, RoutedEventArgs e)
+        {
+            recipeListPage.Visibility = Visibility.Hidden;
+            recipeCreationPage.Visibility = Visibility.Visible;
+        }
+
         private void btnGoToRecipePage_Click(object sender, RoutedEventArgs e)
         {
-            createRecipeList();
+            displayRecipeList();
         }
 
         //Recipe creation page
@@ -326,23 +334,69 @@ namespace ProjectFinal2195109
         //Permette l'ajoute de un field pour un ingrediant
         private void btnAddIngrediantRecipeCreation_Click(object sender, RoutedEventArgs e)
         {
-            TextBox tb = new TextBox();
-            tb.Width = 300;
-            tb.Margin = new Thickness(0, 15, 0, 0);
-            //tb.BorderBrush = new SolidColorBrush(new Color())
-            tb.BorderThickness = new Thickness(2);
-            tb.FontSize = 18;
-            tb.BorderBrush = (Brush)this.FindResource("MaterialDesignDivider");
-            tb.Style = (Style)this.FindResource("MaterialDesignOutlinedTextBox");
-            MaterialDesignThemes.Wpf.HintAssist.SetHint(tb, "Ingrediants");
-            MaterialDesignThemes.Wpf.HintAssist.SetBackground(tb, Brushes.White);
-            recipeCreationForm.Children.Add(tb);
+            TextBox textBoxIngrediant = new TextBox();
+            textBoxIngrediant.Width = 300;
+            textBoxIngrediant.Margin = new Thickness(0, 15, 0, 0);
+            textBoxIngrediant.BorderThickness = new Thickness(2);
+            textBoxIngrediant.FontSize = 18;
+            textBoxIngrediant.BorderBrush = (Brush)this.FindResource("MaterialDesignDivider");
+            textBoxIngrediant.Style = (Style)this.FindResource("MaterialDesignOutlinedTextBox");
+            MaterialDesignThemes.Wpf.HintAssist.SetHint(textBoxIngrediant, "Ingrediants");
+            MaterialDesignThemes.Wpf.HintAssist.SetBackground(textBoxIngrediant, Brushes.White);
+
+            //Ingrediant Quantity and Measure
+            Grid grid = new Grid();
+            grid.Width = 300;
+            //Define the column
+            ColumnDefinition colDef1 = new ColumnDefinition();
+            ColumnDefinition colDef2 = new ColumnDefinition();
+            //Add the column to the definition
+            grid.ColumnDefinitions.Add(colDef1);
+            grid.ColumnDefinitions.Add(colDef2);
+
+            //Text box for quantity
+            TextBox textBoxQuantity = new TextBox();
+            textBoxQuantity.SetValue(Grid.ColumnProperty, 0);
+            textBoxQuantity.Margin = new Thickness(0, 15, 10, 0);
+            textBoxQuantity.BorderThickness = new Thickness(2);
+            textBoxQuantity.FontSize = 18;
+            textBoxQuantity.BorderBrush = (Brush)this.FindResource("MaterialDesignDivider");
+            textBoxQuantity.Style = (Style)this.FindResource("MaterialDesignOutlinedTextBox");
+            MaterialDesignThemes.Wpf.HintAssist.SetHint(textBoxQuantity, "Quantitée");
+            MaterialDesignThemes.Wpf.HintAssist.SetBackground(textBoxQuantity, Brushes.White);
+
+            //Text box for unit measure
+            TextBox textBoxUnit = new TextBox();
+            textBoxUnit.SetValue(Grid.ColumnProperty, 1);
+            textBoxUnit.Margin = new Thickness(0, 15, 10, 0);
+            textBoxUnit.BorderThickness = new Thickness(2);
+            textBoxUnit.FontSize = 18;
+            textBoxUnit.BorderBrush = (Brush)this.FindResource("MaterialDesignDivider");
+            textBoxUnit.Style = (Style)this.FindResource("MaterialDesignOutlinedTextBox");
+            MaterialDesignThemes.Wpf.HintAssist.SetHint(textBoxUnit, "Mesure");
+            MaterialDesignThemes.Wpf.HintAssist.SetBackground(textBoxUnit, Brushes.White);
+
+            //Add the unit to the grid
+            grid.Children.Add(textBoxQuantity);
+            grid.Children.Add(textBoxUnit);
+
+            //Add the item to the page
+            recipeCreationForm.Children.Add(textBoxIngrediant);
+            recipeCreationForm.Children.Add(grid);
         }
 
         //Confirm la creation de la recette
         private void btnConfirmRecipeCreation_Click(object sender, RoutedEventArgs e)
         {
-            //Creation de une recette ici
+            string beforeDot = "";
+            string afterDot = "";
+            Recipe recipe = new Recipe();
+            recipe.Title = txtRecipeTitleCreateRecipePage.Text;
+            recipe.Description = txtRecipeDescriptionCreateRecipePage.Text;
+            recipe.Serving = int.Parse(txtRecipePortionsCreateRecipePage.Text);
+
+
+
             MessageBox.Show("Etez-vous certain de vouloir créer cette recette?", "Confirmation", MessageBoxButton.YesNo);
 
         }

@@ -7,9 +7,9 @@ namespace ProjectFinal2195109
     {
         public int ListItemId { get; set; }
         public int? ShoppingListId { get; set; }
-        public int QuantityId { get; set; }
+        public int? IngrediantId { get; set; }
 
-        public virtual Quantity Quantity { get; set; } = null!;
+        public virtual Ingrediant? Ingrediant { get; set; }
         public virtual ShoppingList? ShoppingList { get; set; }
     }
 }
