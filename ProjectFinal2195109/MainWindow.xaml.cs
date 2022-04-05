@@ -80,6 +80,19 @@ namespace ProjectFinal2195109
             Application.Current.Shutdown();
         }
 
+        //Remette tous les TextBox a null
+        public void clearTextBox()
+        {
+
+            foreach (Control textBox in recipeCreationForm.Children)
+            {
+                if (textBox.GetType() == typeof(TextBox))
+                {
+                    ((TextBox)textBox).Text = string.Empty;
+                }
+            }
+        }
+
         //Login page
 
         //Permet la navigation vers la page de creation de compte
@@ -103,8 +116,8 @@ namespace ProjectFinal2195109
                 recipeListPage.Visibility = Visibility.Visible;
                 errorUsernameLogin.Visibility = Visibility.Hidden;
                 errorPasswordLogin.Visibility = Visibility.Hidden;
-                txtUsernameLoginPage.Text = string.Empty;
-                txtPasswordLoginPage.Password = string.Empty;
+                //clearTextBox();
+                //To figure out
             }
             else if (!dbContext.Users.Any(u => u.Username == user.Username))
             {
@@ -139,9 +152,8 @@ namespace ProjectFinal2195109
             {
                 dbContext.Users.Add(user);
                 dbContext.SaveChanges();
-                txtCourrielCreateAccountPage.Text = string.Empty;
-                txtUsernameCreateAccountPage.Text = string.Empty;
-                txtPasswordCreateAccountPage.Password = string.Empty;
+                //clearTextBox();
+                //To figure out
                 createAccountPage.Visibility = Visibility.Hidden;
                 recipeListPage.Visibility = Visibility.Visible;
             }
@@ -207,6 +219,37 @@ namespace ProjectFinal2195109
                 valid = true;
             }
             return valid;
+        }
+
+
+        //Recipe creation page
+
+        //Permette l'ajoute de un field pour un ingrediant
+        private void btnAddIngrediantRecipeCreation_Click(object sender, RoutedEventArgs e)
+        {
+            //TextBox tb = new TextBox();
+            //tb.TextChanged += new TextChangedEventHandler(TextBox_TextChanged);
+            //stackPanel1.Children.Add(tb);
+        }
+
+        //Confirm la creation de la recette
+        private void btnConfirmRecipeCreation_Click(object sender, RoutedEventArgs e)
+        {
+            //Creation de une recette ici
+            MessageBox.Show("Etez-vous certain de vouloir créer cette recette?", "Confirmation", MessageBoxButton.YesNo);
+
+        }
+
+        private void btnCancelRecipeCreation_Click(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBox.Show("Etez-vous certain de vouloir annuler la creation de cette recette?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                clearTextBox();
+                recipeCreationPage.Visibility = Visibility.Hidden;
+                recipeListPage.Visibility = Visibility.Visible;
+            }
+
         }
     }
 }
