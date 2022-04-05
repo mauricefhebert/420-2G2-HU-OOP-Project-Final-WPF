@@ -13,8 +13,8 @@ create table Recipe(
 	Title varchar(50) not null,
 	Description varchar(200),
 	Serving float,
-	PrepTime Time,
-	CookTime Time,
+	PrepTime DateTime,
+	CookTime DateTime,
 	UserID int FOREIGN KEY REFERENCES Users(UserID) ON DELETE CASCADE,
 );
 
