@@ -22,6 +22,7 @@ namespace ProjectFinal2195109
     public partial class MainWindow : Window
     {
         FoodManagerDbContext dbContext = new FoodManagerDbContext();
+        Recipe recipe = new Recipe();
         public MainWindow()
         {
             InitializeComponent();
@@ -116,8 +117,7 @@ namespace ProjectFinal2195109
                 User user = new User();
                 user = dbContext.Users.First(u => u.Username == Username);
                 currentUserNumber = user.UserId;
-                //clearTextBox();
-                //To figure out
+                displayRecipeList();
             }
             else if (!dbContext.Users.Any(u => u.Username == Username))
             {
@@ -269,48 +269,28 @@ namespace ProjectFinal2195109
                     TextBlock description = new TextBlock();
                     description.SetValue(Grid.RowProperty, 1);
                     description.SetValue(Grid.ColumnProperty, 0);
+                    description.Margin = new Thickness(0, 6, 15, 6);
                     description.FontSize = 18;
                     description.Text = recipe.Description; //le text dois etre egal a la valeur de retour de la base de donner(reader)
                     grid.Children.Add(description);
 
-                    //Create the stack panel for the Portion, Cook time, Prep time
-                    StackPanel stackPanel = new StackPanel();
-                    stackPanel.SetValue(Grid.RowProperty, 2);
-                    stackPanel.SetValue(Grid.ColumnProperty, 0);
-                    stackPanel.Orientation = Orientation.Horizontal;
-                    //Create the text block that go inside the stack panel
                     //Portion
                     TextBlock portion = new TextBlock();
+                    portion.SetValue(Grid.RowProperty, 2);
+                    portion.SetValue(Grid.ColumnProperty, 0);
                     portion.Margin = new Thickness(0, 0, 20, 0);
                     portion.FontSize = 14;
                     portion.Text = $"Portion: {recipe.Serving}";
-                    stackPanel.Children.Add(portion);
-
-                    //Prep Time
-                    TextBlock prepTime = new TextBlock();
-                    prepTime.Margin = new Thickness(0, 0, 20, 0);
-                    prepTime.FontSize = 14;
-                    prepTime.Text = $"Préparation: {Convert.ToDateTime(recipe.PrepTime).ToString("hh:mm")}";
-                    stackPanel.Children.Add(prepTime);
-
-                    //Cook Time
-                    TextBlock cookTime = new TextBlock();
-                    cookTime.Margin = new Thickness(0, 0, 20, 0);
-                    cookTime.FontSize = 14;
-                    cookTime.Text = $"Cuisson: {recipe.CookTime}";
-                    stackPanel.Children.Add(cookTime);
-
-                    //Add the panel to the grid
-                    grid.Children.Add(stackPanel);
+                    grid.Children.Add(portion);
 
                     //Create the checkbox
                     CheckBox checkBox = new CheckBox();
                     checkBox.SetValue(Grid.RowProperty, 1);
                     checkBox.SetValue(Grid.ColumnProperty, 1);
-                    checkBox.Width = 40;
                     checkBox.Height = 40;
-
+                    checkBox.HorizontalAlignment = HorizontalAlignment.Right;
                     grid.Children.Add(checkBox);
+
                     recipeList.Children.Add(grid);
                 }
             }
@@ -326,7 +306,7 @@ namespace ProjectFinal2195109
 
         private void btnGoToRecipePage_Click(object sender, RoutedEventArgs e)
         {
-            displayRecipeList();
+
         }
 
         //Recipe creation page
@@ -383,21 +363,29 @@ namespace ProjectFinal2195109
             //Add the item to the page
             recipeCreationForm.Children.Add(textBoxIngrediant);
             recipeCreationForm.Children.Add(grid);
+
+            Ingrediant ingrediant = new Ingrediant();
+            ingrediant.IngrediantName = txtRecipeIngrediantCreateRecipePage.Text;
+            ingrediant.IngrediantQuantity = int.Parse(txtRecipeQuantityCreateRecipePage.Text);
+            ingrediant.IngrediantMeasurementUnit = txtRecipeUnitCreateRecipePage.Text;
+            ingrediant.RecipeId = recipe.RecipeId;
+            //return a new ingrediant
+            dbContext.Ingrediants.Add(ingrediant);
         }
 
         //Confirm la creation de la recette
         private void btnConfirmRecipeCreation_Click(object sender, RoutedEventArgs e)
         {
-            string beforeDot = "";
-            string afterDot = "";
-            Recipe recipe = new Recipe();
+            recipe.UserId = currentUserNumber;
             recipe.Title = txtRecipeTitleCreateRecipePage.Text;
             recipe.Description = txtRecipeDescriptionCreateRecipePage.Text;
             recipe.Serving = int.Parse(txtRecipePortionsCreateRecipePage.Text);
-
-
-
-            MessageBox.Show("Etez-vous certain de vouloir créer cette recette?", "Confirmation", MessageBoxButton.YesNo);
+            var result = MessageBox.Show("Etez-vous certain de vouloir créer cette recette?", "Confirmation", MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.Yes)
+            {
+                dbContext.Recipes.Add(recipe);
+                dbContext.SaveChanges();
+            }
 
         }
 
@@ -406,7 +394,7 @@ namespace ProjectFinal2195109
             var result = MessageBox.Show("Etez-vous certain de vouloir annuler la creation de cette recette?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                clearTextBox();
+                //clearTextBox();
                 recipeCreationPage.Visibility = Visibility.Hidden;
                 recipeListPage.Visibility = Visibility.Visible;
             }

@@ -91,9 +91,13 @@ namespace ProjectFinal2195109
 
                 entity.Property(e => e.RecipeId).HasColumnName("RecipeID");
 
+                entity.Property(e => e.CookTime).HasColumnType("datetime");
+
                 entity.Property(e => e.Description)
                     .HasMaxLength(200)
                     .IsUnicode(false);
+
+                entity.Property(e => e.PrepTime).HasColumnType("datetime");
 
                 entity.Property(e => e.Title)
                     .HasMaxLength(50)
@@ -126,10 +130,10 @@ namespace ProjectFinal2195109
 
             modelBuilder.Entity<User>(entity =>
             {
-                entity.HasIndex(e => e.Username, "UQ__Users__536C85E43AB846F0")
+                entity.HasIndex(e => e.Username, "UQ__Users__536C85E47A3DF09B")
                     .IsUnique();
 
-                entity.HasIndex(e => e.Email, "UQ__Users__A9D105349CAB259D")
+                entity.HasIndex(e => e.Email, "UQ__Users__A9D105341DCAD1B5")
                     .IsUnique();
 
                 entity.HasIndex(e => e.Email, "idx_UserEmail");

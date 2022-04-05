@@ -252,36 +252,26 @@
                                     <TextBlock
                                         Grid.Row="0"
                                         Grid.Column="0"
+                                        Margin="0,0,15,0"
                                         FontSize="20"
                                         Text="Title" />
                                     <TextBlock
                                         Grid.Row="1"
                                         Grid.Column="0"
-                                        Margin="0,6"
+                                        Margin="0,6,15,6"
                                         FontSize="18"
                                         Text="Summary" />
-                                    <StackPanel
+                                    <TextBlock
                                         Grid.Row="2"
                                         Grid.Column="0"
-                                        Orientation="Horizontal">
-                                        <TextBlock
-                                            Margin="0,0,20,0"
-                                            FontSize="14"
-                                            Text="Portions: 4" />
-                                        <TextBlock
-                                            Margin="0,0,20,0"
-                                            FontSize="14"
-                                            Text="Prep Time: 30m" />
-                                        <TextBlock
-                                            Margin="0,0,20,0"
-                                            FontSize="14"
-                                            Text="Cook Time: 1h30" />
-                                    </StackPanel>
+                                        Margin="0,0,20,0"
+                                        FontSize="14"
+                                        Text="Portions: 4" />
                                     <CheckBox
                                         Grid.Row="1"
                                         Grid.Column="1"
-                                        Width="40"
-                                        Height="40" />
+                                        Height="40"
+                                        HorizontalAlignment="Right" />
                                 </Grid>
                                 <!--  Recipe Item End  -->
                             </StackPanel>
@@ -366,31 +356,6 @@
                                     BorderThickness="2"
                                     FontSize="18"
                                     Style="{StaticResource MaterialDesignOutlinedTextBox}" />
-                                <Grid Width="300">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBox
-                                        x:Name="txtRecipePrepTimeCreateRecipePage"
-                                        Grid.Column="0"
-                                        Margin="0,15,10,0"
-                                        materialDesign:HintAssist.Hint="Prep Time"
-                                        BorderBrush="{DynamicResource MaterialDesignDivider}"
-                                        BorderThickness="2"
-                                        FontSize="18"
-                                        Style="{StaticResource MaterialDesignOutlinedTextBox}" />
-
-                                    <TextBox
-                                        x:Name="txtRecipeCookTimeCreateRecipePage"
-                                        Grid.Column="1"
-                                        Margin="10,15,0,0"
-                                        materialDesign:HintAssist.Hint="Cook Time"
-                                        BorderBrush="{DynamicResource MaterialDesignDivider}"
-                                        BorderThickness="2"
-                                        FontSize="18"
-                                        Style="{StaticResource MaterialDesignOutlinedTextBox}" />
-                                </Grid>
                                 <TextBox
                                     x:Name="txtRecipeIngrediantCreateRecipePage"
                                     Width="300"

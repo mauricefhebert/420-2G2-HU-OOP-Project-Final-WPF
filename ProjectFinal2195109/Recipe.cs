@@ -14,8 +14,8 @@ namespace ProjectFinal2195109
         public string Title { get; set; } = null!;
         public string? Description { get; set; }
         public double? Serving { get; set; }
-        public TimeSpan? PrepTime { get; set; }
-        public TimeSpan? CookTime { get; set; }
+        public DateTime? PrepTime { get; set; }
+        public DateTime? CookTime { get; set; }
         public int? UserId { get; set; }
 
         public virtual User? User { get; set; }
