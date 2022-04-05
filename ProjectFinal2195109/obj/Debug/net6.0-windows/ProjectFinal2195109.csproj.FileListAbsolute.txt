@@ -113,3 +113,10 @@ E:\Cegep-Course\Session-2\Object-Oriented\Project\ProjectFinalOOPWPF\ProjectFina
 E:\Cegep-Course\Session-2\Object-Oriented\Project\ProjectFinalOOPWPF\ProjectFinal2195109\obj\Debug\net6.0-windows\ProjectFinal2195109.pdb
 E:\Cegep-Course\Session-2\Object-Oriented\Project\ProjectFinalOOPWPF\ProjectFinal2195109\obj\Debug\net6.0-windows\ProjectFinal2195109.genruntimeconfig.cache
 E:\Cegep-Course\Session-2\Object-Oriented\Project\ProjectFinalOOPWPF\ProjectFinal2195109\obj\Debug\net6.0-windows\ref\ProjectFinal2195109.dll
+B:\Cegep-Course\Session-2\Object-Oriented\Project\ProjectFinalOOPWPF\ProjectFinal2195109\bin\Debug\net6.0-windows\ControlzEx.dll
+B:\Cegep-Course\Session-2\Object-Oriented\Project\ProjectFinalOOPWPF\ProjectFinal2195109\bin\Debug\net6.0-windows\MahApps.Metro.dll
+B:\Cegep-Course\Session-2\Object-Oriented\Project\ProjectFinalOOPWPF\ProjectFinal2195109\bin\Debug\net6.0-windows\MaterialDesignColors.dll
+B:\Cegep-Course\Session-2\Object-Oriented\Project\ProjectFinalOOPWPF\ProjectFinal2195109\bin\Debug\net6.0-windows\MaterialDesignThemes.Wpf.dll
+B:\Cegep-Course\Session-2\Object-Oriented\Project\ProjectFinalOOPWPF\ProjectFinal2195109\bin\Debug\net6.0-windows\MaterialDesignThemes.MahApps.dll
+B:\Cegep-Course\Session-2\Object-Oriented\Project\ProjectFinalOOPWPF\ProjectFinal2195109\bin\Debug\net6.0-windows\Microsoft.Xaml.Behaviors.dll
+B:\Cegep-Course\Session-2\Object-Oriented\Project\ProjectFinalOOPWPF\ProjectFinal2195109\obj\Debug\net6.0-windows\App.baml

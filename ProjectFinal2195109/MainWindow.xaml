@@ -21,7 +21,7 @@
         Background="{DynamicResource MaterialDesignPaper}"
         UniformCornerRadius="15">
         <materialDesign:DialogHost x:Name="DialogHost" CloseOnClickAway="True">
-            <ScrollViewer VerticalScrollBarVisibility="Hidden">
+            
                 <StackPanel>
                     <!--  Header  -->
                     <materialDesign:PopupBox
@@ -56,12 +56,12 @@
                         </StackPanel>
                     </materialDesign:PopupBox>
                     <!--  start of Main Content  -->
+                
                     <Grid x:Name="Container">
                         <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+                        
                         <!--  Start of Login page  -->
                         <Grid
                             x:Name="loginPage"
@@ -230,12 +230,13 @@
                         <Grid
                             x:Name="recipeListPage"
                             Grid.Row="0"
-                            Visibility="Hidden">
+                            Visibility="Visible">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="1*" />
+                                <RowDefinition Height="655" />
                                 <RowDefinition Height="auto" />
                             </Grid.RowDefinitions>
-                            <StackPanel Grid.Row="0" Height="655">
+                        <ScrollViewer>
+                            <StackPanel Grid.Row="0" x:Name="recipeList">
                                 <!--  Recipe Item Start  -->
                                 <Grid Margin="20,20">
                                     <Grid.RowDefinitions>
@@ -284,7 +285,8 @@
                                 </Grid>
                                 <!--  Recipe Item End  -->
                             </StackPanel>
-                            <Grid Grid.Row="1">
+                        </ScrollViewer>
+                        <Grid Grid.Row="1">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition />
                                     <ColumnDefinition />
@@ -296,7 +298,7 @@
                                     materialDesign:ButtonAssist.CornerRadius="10"
                                     Content="Recette"
                                     FontSize="18"
-                                    Style="{StaticResource MaterialDesignFlatMidBgButton}" />
+                                    Style="{StaticResource MaterialDesignFlatMidBgButton}" Click="btnGoToRecipePage_Click" />
                                 <Button
                                     x:Name="btnGoToShoppingList"
                                     Grid.Column="1"
@@ -310,15 +312,16 @@
                         <!--  End of Recipe List page  -->
 
                         <!--  Start of Recipe Creation page  -->
-                        <Grid
+                    <Grid
                             x:Name="recipeCreationPage"
                             Grid.Row="0"
-                            Visibility="Visible">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="1*" />
-                                <RowDefinition Height="auto" />
-                            </Grid.RowDefinitions>
-
+                            Visibility="Hidden">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="525" />
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="1*" />
+                        </Grid.RowDefinitions>
+                        <ScrollViewer>
                             <StackPanel x:Name="recipeCreationForm" Grid.Row="0">
                                 <!--  Recipe Creation Form Start  -->
                                 <TextBox
@@ -375,7 +378,12 @@
                                     BorderThickness="2"
                                     FontSize="18"
                                     Style="{StaticResource MaterialDesignOutlinedTextBox}" />
-                                <Button
+                                <!--  Recipe Creation Form End  -->
+                                
+                        </StackPanel>
+            </ScrollViewer>
+            <Button
+                                Grid.Row="1"
                                     x:Name="btnAddIngrediantRecipeCreation"
                                     Width="220"
                                     Height="35"
@@ -385,10 +393,7 @@
                                     Content="Ajouter un ingrediant"
                                     FontSize="18"
                                     Style="{StaticResource MaterialDesignFlatMidBgButton}" />
-                                <!--  Recipe Creation Form End  -->
-                            </StackPanel>
-
-                            <Grid Grid.Row="1">
+                            <Grid Grid.Row="2">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition />
                                     <ColumnDefinition />
@@ -416,8 +421,9 @@
                         <!--  End of Recipe Creation page  -->
                     </Grid>
                     <!--  End of Main Content  -->
-                </StackPanel>
-            </ScrollViewer>
+
+            </StackPanel>
+
         </materialDesign:DialogHost>
     </materialDesign:Card>
     <!--  code end here  -->
