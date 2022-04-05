@@ -25,10 +25,8 @@ namespace ProjectFinal2195109
         public MainWindow()
         {
             InitializeComponent();
-            User user = new User();
-            var myData = user.Recipes;
         }
-
+        int currentUserNumber = 0;
         //Theme
 
         //Allow the change of the theme with a toggle button
@@ -115,6 +113,9 @@ namespace ProjectFinal2195109
                 recipeListPage.Visibility = Visibility.Visible;
                 errorUsernameLogin.Visibility = Visibility.Hidden;
                 errorPasswordLogin.Visibility = Visibility.Hidden;
+                User user = new User();
+                user = dbContext.Users.First(u => u.Username == Username);
+                currentUserNumber = user.UserId;
                 //clearTextBox();
                 //To figure out
             }
@@ -224,83 +225,93 @@ namespace ProjectFinal2195109
         //Recipe List page
         public void createRecipeList()
         {
-            //Create the grid
-            Grid grid = new Grid();
-            //Add margin to the grid
-            grid.Margin = new Thickness(20);
+            foreach (Recipe recipe in dbContext.Recipes.Where(u => u.UserId == currentUserNumber))
+            {
+                if (recipe == null)
+                {
+                    return;
+                }
+                else
+                {
+                    //Create the grid
+                    Grid grid = new Grid();
+                    //Add margin to the grid
+                    grid.Margin = new Thickness(20);
 
-            //Define the row
-            RowDefinition rowDef1 = new RowDefinition();
-            RowDefinition rowDef2 = new RowDefinition();
-            RowDefinition rowDef3 = new RowDefinition();
-            //Add the row to the definition
-            grid.RowDefinitions.Add(rowDef1);
-            grid.RowDefinitions.Add(rowDef2);
-            grid.RowDefinitions.Add(rowDef3);
+                    //Define the row
+                    RowDefinition rowDef1 = new RowDefinition();
+                    RowDefinition rowDef2 = new RowDefinition();
+                    RowDefinition rowDef3 = new RowDefinition();
+                    //Add the row to the definition
+                    grid.RowDefinitions.Add(rowDef1);
+                    grid.RowDefinitions.Add(rowDef2);
+                    grid.RowDefinitions.Add(rowDef3);
 
-            //Define the column
-            ColumnDefinition colDef1 = new ColumnDefinition();
-            ColumnDefinition colDef2 = new ColumnDefinition();
-            //Add the column to the definition
-            grid.ColumnDefinitions.Add(colDef1);
-            grid.ColumnDefinitions.Add(colDef2);
-            
-            //Create the textblock for the title
-            TextBlock title = new TextBlock();
-            title.SetValue(Grid.RowProperty, 0);
-            title.SetValue(Grid.ColumnProperty, 0);
-            title.FontSize = 20;
-            title.Text = "Title"; //le text dois etre egal a la valeur de retour de la base de donner (reader)
-            grid.Children.Add(title);
+                    //Define the column
+                    ColumnDefinition colDef1 = new ColumnDefinition();
+                    ColumnDefinition colDef2 = new ColumnDefinition();
+                    //Add the column to the definition
+                    grid.ColumnDefinitions.Add(colDef1);
+                    grid.ColumnDefinitions.Add(colDef2);
 
-            //Create the textblock for the description
-            TextBlock description = new TextBlock();
-            description.SetValue(Grid.RowProperty, 1);
-            description.SetValue(Grid.ColumnProperty, 0);
-            description.FontSize = 18;
-            description.Text = "Description"; //le text dois etre egal a la valeur de retour de la base de donner(reader)
-            grid.Children.Add(description);
+                    //Create the textblock for the title
+                    TextBlock title = new TextBlock();
+                    title.SetValue(Grid.RowProperty, 0);
+                    title.SetValue(Grid.ColumnProperty, 0);
+                    title.FontSize = 20;
+                    title.Text = recipe.Title; //le text dois etre egal a la valeur de retour de la base de donner (reader)
+                    grid.Children.Add(title);
 
-            //Create the stack panel for the Portion, Cook time, Prep time
-            StackPanel stackPanel = new StackPanel();
-            stackPanel.SetValue(Grid.RowProperty, 2);
-            stackPanel.SetValue(Grid.ColumnProperty, 0);
-            stackPanel.Orientation = Orientation.Horizontal;
-            //Create the text block that go inside the stack panel
-            //Portion
-            TextBlock portion = new TextBlock();
-            portion.Margin = new Thickness(0,0,20,0);
-            portion.FontSize = 14;
-            portion.Text = "portion: 4";
-            stackPanel.Children.Add(portion);
+                    //Create the textblock for the description
+                    TextBlock description = new TextBlock();
+                    description.SetValue(Grid.RowProperty, 1);
+                    description.SetValue(Grid.ColumnProperty, 0);
+                    description.FontSize = 18;
+                    description.Text = recipe.Description; //le text dois etre egal a la valeur de retour de la base de donner(reader)
+                    grid.Children.Add(description);
 
-            //Prep Time
-            TextBlock prepTime = new TextBlock();
-            prepTime.Margin = new Thickness(0, 0, 20, 0);
-            prepTime.FontSize = 14;
-            prepTime.Text = "prep time: 30m";
-            stackPanel.Children.Add(prepTime);
+                    //Create the stack panel for the Portion, Cook time, Prep time
+                    StackPanel stackPanel = new StackPanel();
+                    stackPanel.SetValue(Grid.RowProperty, 2);
+                    stackPanel.SetValue(Grid.ColumnProperty, 0);
+                    stackPanel.Orientation = Orientation.Horizontal;
+                    //Create the text block that go inside the stack panel
+                    //Portion
+                    TextBlock portion = new TextBlock();
+                    portion.Margin = new Thickness(0, 0, 20, 0);
+                    portion.FontSize = 14;
+                    portion.Text = $"Portion: {recipe.Serving}";
+                    stackPanel.Children.Add(portion);
 
-            //Cook Time
-            TextBlock cookTime = new TextBlock();
-            cookTime.Margin = new Thickness(0, 0, 20, 0);
-            cookTime.FontSize = 14;
-            cookTime.Text = "cook time: 1h30";
-            stackPanel.Children.Add(cookTime);
+                    //Prep Time
+                    TextBlock prepTime = new TextBlock();
+                    prepTime.Margin = new Thickness(0, 0, 20, 0);
+                    prepTime.FontSize = 14;
+                    prepTime.Text = $"Préparation: {Convert.ToDateTime(recipe.PrepTime).ToString("hh:mm")}";
+                    stackPanel.Children.Add(prepTime);
 
-            //Add the panel to the grid
-            grid.Children.Add(stackPanel);
+                    //Cook Time
+                    TextBlock cookTime = new TextBlock();
+                    cookTime.Margin = new Thickness(0, 0, 20, 0);
+                    cookTime.FontSize = 14;
+                    cookTime.Text = $"Cuisson: {recipe.CookTime}";
+                    stackPanel.Children.Add(cookTime);
 
-            //Create the checkbox
-            CheckBox checkBox = new CheckBox();
-            checkBox.SetValue(Grid.RowProperty, 1);
-            checkBox.SetValue(Grid.ColumnProperty, 1);
-            checkBox.Width = 40;
-            checkBox.Height = 40;
+                    //Add the panel to the grid
+                    grid.Children.Add(stackPanel);
 
-            grid.Children.Add(checkBox);
+                    //Create the checkbox
+                    CheckBox checkBox = new CheckBox();
+                    checkBox.SetValue(Grid.RowProperty, 1);
+                    checkBox.SetValue(Grid.ColumnProperty, 1);
+                    checkBox.Width = 40;
+                    checkBox.Height = 40;
 
-            recipeList.Children.Add(grid);
+                    grid.Children.Add(checkBox);
+
+                    recipeList.Children.Add(grid);
+                }
+            }
 
             //need to find  wait to set the width of the column
         }
