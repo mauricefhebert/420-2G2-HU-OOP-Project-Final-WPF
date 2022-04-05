@@ -105,12 +105,11 @@ namespace ProjectFinal2195109
         //Si l'utilisateur existe permet la navigation sinon lance une erreur
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
-            User user = new User()
-            {
-                Username = txtUsernameLoginPage.Text,
-                Password = txtPasswordLoginPage.Password,
-            };
-            if (dbContext.Users.Any(u => u.Username == user.Username && u.Password == user.Password))
+
+            var Username = txtUsernameLoginPage.Text;
+            var Password = txtPasswordLoginPage.Password;
+
+            if (dbContext.Users.Any(u => u.Username == Username && u.Password == Password))
             {
                 loginPage.Visibility = Visibility.Hidden;
                 recipeListPage.Visibility = Visibility.Visible;
@@ -119,11 +118,11 @@ namespace ProjectFinal2195109
                 //clearTextBox();
                 //To figure out
             }
-            else if (!dbContext.Users.Any(u => u.Username == user.Username))
+            else if (!dbContext.Users.Any(u => u.Username == Username))
             {
                 errorUsernameLogin.Visibility = Visibility.Visible;
             }
-            else if (dbContext.Users.Any(u => u.Username == user.Username && u.Password != user.Password))
+            else if (dbContext.Users.Any(u => u.Username == Username && u.Password != Password))
             {
                 errorUsernameLogin.Visibility = Visibility.Hidden;
                 errorPasswordLogin.Visibility = Visibility.Visible;
