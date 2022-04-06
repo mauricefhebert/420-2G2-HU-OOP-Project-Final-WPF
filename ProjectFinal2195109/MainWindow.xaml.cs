@@ -48,7 +48,6 @@ namespace ProjectFinal2195109
             }
             paletteHelper.SetTheme(theme);
         }
-
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);
@@ -295,15 +294,14 @@ namespace ProjectFinal2195109
                     checkBox.SetValue(Grid.ColumnProperty, 1);
                     checkBox.Height = 40;
                     checkBox.HorizontalAlignment = HorizontalAlignment.Right;
-                    grid.Children.Add(checkBox);
+                    checkBox.Uid = $"{recipe.RecipeId}";
+                    //Need to add event handler for checked and unchecked foreach checkbox
 
+                    grid.Children.Add(checkBox);
                     recipeList.Children.Add(grid);
                 }
             }
-
-            //need to find  wait to set the width of the column
         }
-
         private void btnAddRecipeCreation_Click(object sender, RoutedEventArgs e)
         {
             //Bug here
