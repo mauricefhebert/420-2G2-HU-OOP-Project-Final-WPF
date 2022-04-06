@@ -66,7 +66,7 @@
                     <Grid
                         x:Name="loginPage"
                         Grid.Row="0"
-                        Visibility="Hidden">
+                        Visibility="Visible">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="1*" />
                             <RowDefinition Height="auto" />
@@ -239,40 +239,7 @@
                         <ScrollViewer>
                             <StackPanel x:Name="recipeList" Grid.Row="0">
                                 <!--  Recipe Item Start  -->
-                                <Grid Margin="20,20">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition />
-                                        <RowDefinition />
-                                        <RowDefinition />
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition Width="auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock
-                                        Grid.Row="0"
-                                        Grid.Column="0"
-                                        Margin="0,0,15,0"
-                                        FontSize="20"
-                                        Text="Title" />
-                                    <TextBlock
-                                        Grid.Row="1"
-                                        Grid.Column="0"
-                                        Margin="0,6,15,6"
-                                        FontSize="18"
-                                        Text="Summary" />
-                                    <TextBlock
-                                        Grid.Row="2"
-                                        Grid.Column="0"
-                                        Margin="0,0,20,0"
-                                        FontSize="14"
-                                        Text="Portions: 4" />
-                                    <CheckBox
-                                        Grid.Row="1"
-                                        Grid.Column="1"
-                                        Height="40"
-                                        HorizontalAlignment="Right" />
-                                </Grid>
+
                                 <!--  Recipe Item End  -->
                             </StackPanel>
                         </ScrollViewer>
@@ -319,7 +286,7 @@
                     <Grid
                         x:Name="recipeCreationPage"
                         Grid.Row="0"
-                        Visibility="Visible">
+                        Visibility="Hidden">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="540" />
                             <RowDefinition Height="1*" />

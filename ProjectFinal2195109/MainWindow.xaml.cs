@@ -22,7 +22,7 @@ namespace ProjectFinal2195109
     public partial class MainWindow : Window
     {
         FoodManagerDbContext dbContext = new FoodManagerDbContext();
-        Recipe recipe = new Recipe();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -82,14 +82,17 @@ namespace ProjectFinal2195109
         //Remette tous les TextBox a null
         public void clearTextBox()
         {
-
-            foreach (Control textBox in recipeCreationForm.Children)
-            {
-                if (textBox.GetType() == typeof(TextBox))
-                {
-                    ((TextBox)textBox).Text = string.Empty;
-                }
-            }
+            txtUsernameLoginPage.Clear();
+            txtUsernameCreateAccountPage.Clear();
+            txtRecipeUnitCreateRecipePage.Clear();
+            txtRecipeTitleCreateRecipePage.Clear();
+            txtRecipeQuantityCreateRecipePage.Clear();
+            txtRecipePortionsCreateRecipePage.Clear();
+            txtRecipeIngrediantCreateRecipePage.Clear();
+            txtRecipeDescriptionCreateRecipePage.Clear();
+            txtPasswordLoginPage.Clear();
+            txtPasswordCreateAccountPage.Clear();
+            txtCourrielCreateAccountPage.Clear();
         }
 
         //Login page
@@ -117,6 +120,7 @@ namespace ProjectFinal2195109
                 User user = new User();
                 user = dbContext.Users.First(u => u.Username == Username);
                 currentUserNumber = user.UserId;
+                clearTextBox();
                 displayRecipeList();
             }
             else if (!dbContext.Users.Any(u => u.Username == Username))
@@ -153,8 +157,8 @@ namespace ProjectFinal2195109
             {
                 dbContext.Users.Add(user);
                 dbContext.SaveChanges();
-                //clearTextBox();
-                //To figure out
+                clearTextBox();
+                currentUserNumber = user.UserId;
                 createAccountPage.Visibility = Visibility.Hidden;
                 recipeListPage.Visibility = Visibility.Visible;
             }
@@ -225,6 +229,7 @@ namespace ProjectFinal2195109
         //Recipe List page
         public void displayRecipeList()
         {
+            recipeList.Children.Clear();
             foreach (Recipe recipe in dbContext.Recipes.Where(u => u.UserId == currentUserNumber))
             {
                 if (recipe == null)
@@ -233,6 +238,7 @@ namespace ProjectFinal2195109
                 }
                 else
                 {
+
                     //Create the grid
                     Grid grid = new Grid();
                     //Add margin to the grid
@@ -300,8 +306,16 @@ namespace ProjectFinal2195109
 
         private void btnAddRecipeCreation_Click(object sender, RoutedEventArgs e)
         {
+            //Bug here
+            Recipe recipe = new Recipe();
             recipeListPage.Visibility = Visibility.Hidden;
             recipeCreationPage.Visibility = Visibility.Visible;
+            recipe.Title = "";
+            recipe.Description = "";
+            recipe.UserId = currentUserNumber;
+            dbContext.Recipes.Add(recipe);
+            dbContext.SaveChanges();
+            clearTextBox();
         }
 
         private void btnGoToRecipePage_Click(object sender, RoutedEventArgs e)
@@ -311,9 +325,10 @@ namespace ProjectFinal2195109
 
         //Recipe creation page
 
-        //Permette l'ajoute de un field pour un ingrediant
-        private void btnAddIngrediantRecipeCreation_Click(object sender, RoutedEventArgs e)
+        public void createTextBoxForRecipeCreation()
         {
+
+
             TextBox textBoxIngrediant = new TextBox();
             textBoxIngrediant.Width = 300;
             textBoxIngrediant.Margin = new Thickness(0, 15, 0, 0);
@@ -323,6 +338,7 @@ namespace ProjectFinal2195109
             textBoxIngrediant.Style = (Style)this.FindResource("MaterialDesignOutlinedTextBox");
             MaterialDesignThemes.Wpf.HintAssist.SetHint(textBoxIngrediant, "Ingrediants");
             MaterialDesignThemes.Wpf.HintAssist.SetBackground(textBoxIngrediant, Brushes.White);
+            textBoxIngrediant.Name = "txtRecipeIngrediantCreateRecipePage";
 
             //Ingrediant Quantity and Measure
             Grid grid = new Grid();
@@ -344,6 +360,7 @@ namespace ProjectFinal2195109
             textBoxQuantity.Style = (Style)this.FindResource("MaterialDesignOutlinedTextBox");
             MaterialDesignThemes.Wpf.HintAssist.SetHint(textBoxQuantity, "Quantitée");
             MaterialDesignThemes.Wpf.HintAssist.SetBackground(textBoxQuantity, Brushes.White);
+            textBoxQuantity.Name = "txtRecipeQuantityCreateRecipePage";
 
             //Text box for unit measure
             TextBox textBoxUnit = new TextBox();
@@ -355,6 +372,7 @@ namespace ProjectFinal2195109
             textBoxUnit.Style = (Style)this.FindResource("MaterialDesignOutlinedTextBox");
             MaterialDesignThemes.Wpf.HintAssist.SetHint(textBoxUnit, "Mesure");
             MaterialDesignThemes.Wpf.HintAssist.SetBackground(textBoxUnit, Brushes.White);
+            textBoxUnit.Name = "txtRecipeUnitCreateRecipePage";
 
             //Add the unit to the grid
             grid.Children.Add(textBoxQuantity);
@@ -363,28 +381,59 @@ namespace ProjectFinal2195109
             //Add the item to the page
             recipeCreationForm.Children.Add(textBoxIngrediant);
             recipeCreationForm.Children.Add(grid);
+        }
+        //Permette l'ajoute de un field pour un ingrediant
+        private void btnAddIngrediantRecipeCreation_Click(object sender, RoutedEventArgs e)
+        {
+
+            var ingrediant_Name = txtRecipeIngrediantCreateRecipePage.Text;
+            var ingrediant_Quantity = int.Parse(txtRecipeQuantityCreateRecipePage.Text);
+            var ingrediant_Unit = txtRecipeUnitCreateRecipePage.Text;
 
             Ingrediant ingrediant = new Ingrediant();
-            ingrediant.IngrediantName = txtRecipeIngrediantCreateRecipePage.Text;
-            ingrediant.IngrediantQuantity = int.Parse(txtRecipeQuantityCreateRecipePage.Text);
-            ingrediant.IngrediantMeasurementUnit = txtRecipeUnitCreateRecipePage.Text;
-            ingrediant.RecipeId = recipe.RecipeId;
-            //return a new ingrediant
-            dbContext.Ingrediants.Add(ingrediant);
+            ingrediant.IngrediantName = ingrediant_Name;
+            ingrediant.IngrediantQuantity = ingrediant_Quantity;
+            ingrediant.IngrediantMeasurementUnit = ingrediant_Unit;
+            ingrediant.RecipeId = dbContext.Recipes.Count() + 1;
+
+            if (ingrediant_Name != string.Empty && ingrediant_Quantity.ToString() != string.Empty && ingrediant_Unit != string.Empty)
+            {
+                //save the new ingrediant
+                dbContext.Ingrediants.Add(ingrediant);
+                dbContext.SaveChanges();
+                removeNameForTextBox();
+                createTextBoxForRecipeCreation();
+            }
+        }
+        public void removeNameForTextBox()
+        {
+            txtRecipeIngrediantCreateRecipePage.IsEnabled = false;
+            txtRecipeQuantityCreateRecipePage.IsEnabled = false;
+            txtRecipeUnitCreateRecipePage.IsEnabled = false;
+
+            txtRecipeIngrediantCreateRecipePage.Name = "";
+            txtRecipeQuantityCreateRecipePage.Name = "";
+            txtRecipeUnitCreateRecipePage.Name = "";
+
         }
 
         //Confirm la creation de la recette
         private void btnConfirmRecipeCreation_Click(object sender, RoutedEventArgs e)
         {
-            recipe.UserId = currentUserNumber;
-            recipe.Title = txtRecipeTitleCreateRecipePage.Text;
-            recipe.Description = txtRecipeDescriptionCreateRecipePage.Text;
-            recipe.Serving = int.Parse(txtRecipePortionsCreateRecipePage.Text);
+            var lastRecipe = dbContext.Recipes.OrderBy(x => x.RecipeId).Last();
+            lastRecipe.UserId = currentUserNumber;
+            lastRecipe.Title = txtRecipeTitleCreateRecipePage.Text;
+            lastRecipe.Description = txtRecipeDescriptionCreateRecipePage.Text;
+            lastRecipe.Serving = int.Parse(txtRecipePortionsCreateRecipePage.Text);
             var result = MessageBox.Show("Etez-vous certain de vouloir créer cette recette?", "Confirmation", MessageBoxButton.YesNo);
             if (result == MessageBoxResult.Yes)
             {
-                dbContext.Recipes.Add(recipe);
+                dbContext.Recipes.Update(lastRecipe);
                 dbContext.SaveChanges();
+                recipeCreationPage.Visibility = Visibility.Hidden;
+                recipeListPage.Visibility = Visibility.Visible;
+                displayRecipeList();
+                clearTextBox();
             }
 
         }
@@ -394,11 +443,13 @@ namespace ProjectFinal2195109
             var result = MessageBox.Show("Etez-vous certain de vouloir annuler la creation de cette recette?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                //clearTextBox();
+                clearTextBox();
                 recipeCreationPage.Visibility = Visibility.Hidden;
                 recipeListPage.Visibility = Visibility.Visible;
+                var lastRecipe = dbContext.Recipes.OrderBy(x => x.RecipeId).Last();
+                dbContext.Recipes.Remove(lastRecipe);
+                dbContext.SaveChanges();
             }
-
         }
     }
 }
