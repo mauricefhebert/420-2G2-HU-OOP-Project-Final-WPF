@@ -16,9 +16,15 @@ using System.Windows.Shapes;
 
 namespace ProjectFinal2195109
 {
+
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// 1. Handle the checkbox checked/unchecked event ->if checked recipe ingrediant add to shopping list, if unchecked remove ingrediant fom shopping list
+    /// 2. Fix the bug for ingrediant creation
+    /// 3. Add a button next to the checkbox in recipe list to delete the recipe
+    /// 4. Build the shopping list page (button and data grid?)
+    /// 5. Check all the page navigation
     /// </summary>
+
     public partial class MainWindow : Window
     {
         FoodManagerDbContext dbContext = new FoodManagerDbContext();
