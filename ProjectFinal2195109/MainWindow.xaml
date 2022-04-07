@@ -294,8 +294,18 @@
                             <RowDefinition Height="1*" />
                         </Grid.RowDefinitions>
                         <ScrollViewer>
-                            <StackPanel x:Name="recipeCreationForm" Grid.Row="0">
+                            <StackPanel x:Name="recipeCreationForm" Grid.Row="0" Width="300" HorizontalAlignment="Center">
                                 <!--  Recipe Creation Form Start  -->
+                                <!--<WrapPanel x:Name="recipeGrid">-->
+                                    <!--<Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>-->
                                 <TextBox
                                     x:Name="txtRecipeTitleCreateRecipePage"
                                     Width="300"
@@ -314,7 +324,6 @@
                                     BorderThickness="2"
                                     FontSize="18"
                                     Style="{StaticResource MaterialDesignOutlinedTextBox}" />
-
                                 <TextBox
                                     x:Name="txtRecipePortionsCreateRecipePage"
                                     Width="300"
@@ -324,6 +333,7 @@
                                     BorderThickness="2"
                                     FontSize="18"
                                     Style="{StaticResource MaterialDesignOutlinedTextBox}" />
+                                <!--</WrapPanel>-->
                                 <!--  Recipe Creation Form End  -->
                             </StackPanel>
                         </ScrollViewer>
