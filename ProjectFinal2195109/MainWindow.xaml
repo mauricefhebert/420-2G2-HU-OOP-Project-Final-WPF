@@ -277,7 +277,7 @@
                                 materialDesign:ButtonAssist.CornerRadius="10"
                                 Content="Liste d'épicerie"
                                 FontSize="18"
-                                Style="{StaticResource MaterialDesignFlatButton}" />
+                                Style="{StaticResource MaterialDesignFlatButton}" Click="btnGoToShoppingList_Click" />
                         </Grid>
                     </Grid>
                     <!--  End of Recipe List page  -->
@@ -396,6 +396,47 @@
                         </Grid>
                     </Grid>
                     <!--  End of Recipe Creation page  -->
+
+                    <!--  Start of Shopping List page  -->
+                    <Grid
+                        x:Name="shoppingListPage"
+                        Grid.Row="0"
+                        Visibility="Hidden">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="580" />
+                            <RowDefinition Height="1*" />
+                            <RowDefinition Height="1*" />
+                        </Grid.RowDefinitions>
+                        <ScrollViewer>
+                            <DataGrid x:Name="shoppingList" Grid.Row="0"/>
+                        </ScrollViewer>
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Button
+                                x:Name="def"
+                                Grid.Column="0"
+                                Height="53"
+                                VerticalAlignment="Bottom"
+                                materialDesign:ButtonAssist.CornerRadius="10"
+                                Click="btnGoToRecipePage_Click"
+                                Content="Recette"
+                                FontSize="18"
+                                Style="{StaticResource MaterialDesignFlatMidBgButton}" />
+                            <Button
+                                x:Name="abc"
+                                Grid.Column="1"
+                                Height="53"
+                                materialDesign:ButtonAssist.CornerRadius="10"
+                                Content="Liste d'épicerie"
+                                FontSize="18"
+                                Style="{StaticResource MaterialDesignFlatButton}" />
+                        </Grid>
+                    </Grid>
+                    <!--  End of Shopping List page  -->
+
                 </Grid>
                 <!--  End of Main Content  -->
 

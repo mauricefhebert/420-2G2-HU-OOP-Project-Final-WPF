@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Cegep-Course\\Session-2\\Object-Oriented\\Project\\ProjectFinalOOPWPF\\ProjectFinal2195109\\ProjectFinal2195109.csproj": {}
+    "B:\\Cegep-Course\\Session-2\\Object-Oriented\\Project\\ProjectFinalOOPWPF\\ProjectFinal2195109\\ProjectFinal2195109.csproj": {}
   },
   "projects": {
-    "E:\\Cegep-Course\\Session-2\\Object-Oriented\\Project\\ProjectFinalOOPWPF\\ProjectFinal2195109\\ProjectFinal2195109.csproj": {
+    "B:\\Cegep-Course\\Session-2\\Object-Oriented\\Project\\ProjectFinalOOPWPF\\ProjectFinal2195109\\ProjectFinal2195109.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Cegep-Course\\Session-2\\Object-Oriented\\Project\\ProjectFinalOOPWPF\\ProjectFinal2195109\\ProjectFinal2195109.csproj",
+        "projectUniqueName": "B:\\Cegep-Course\\Session-2\\Object-Oriented\\Project\\ProjectFinalOOPWPF\\ProjectFinal2195109\\ProjectFinal2195109.csproj",
         "projectName": "ProjectFinal2195109",
-        "projectPath": "E:\\Cegep-Course\\Session-2\\Object-Oriented\\Project\\ProjectFinalOOPWPF\\ProjectFinal2195109\\ProjectFinal2195109.csproj",
-        "packagesPath": "C:\\Users\\Mauri\\.nuget\\packages\\",
-        "outputPath": "E:\\Cegep-Course\\Session-2\\Object-Oriented\\Project\\ProjectFinalOOPWPF\\ProjectFinal2195109\\obj\\",
+        "projectPath": "B:\\Cegep-Course\\Session-2\\Object-Oriented\\Project\\ProjectFinalOOPWPF\\ProjectFinal2195109\\ProjectFinal2195109.csproj",
+        "packagesPath": "C:\\Users\\2195109\\.nuget\\packages\\",
+        "outputPath": "B:\\Cegep-Course\\Session-2\\Object-Oriented\\Project\\ProjectFinalOOPWPF\\ProjectFinal2195109\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Mauri\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\2195109\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -81,7 +85,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.200\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -1,6 +1,7 @@
 ﻿using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +21,7 @@ namespace ProjectFinal2195109
     /// <summary>
     /// 1. Handle the checkbox checked/unchecked event ->if checked recipe ingrediant add to shopping list, if unchecked remove ingrediant fom shopping list
     /// 2. Fix the bug for ingrediant creation
-    /// 3. Add a button next to the checkbox in recipe list to delete the recipe
-    /// 4. Build the shopping list page (button and data grid?)
-    /// 5. Check all the page navigation
+    /// 3. Add the source for the shopping list
     /// </summary>
 
     public partial class MainWindow : Window
@@ -296,21 +295,46 @@ namespace ProjectFinal2195109
 
                     //Create the checkbox
                     CheckBox checkBox = new CheckBox();
-                    checkBox.SetValue(Grid.RowProperty, 1);
-                    checkBox.SetValue(Grid.ColumnProperty, 1);
                     checkBox.Height = 40;
                     checkBox.HorizontalAlignment = HorizontalAlignment.Right;
                     checkBox.Uid = $"{recipe.RecipeId}";
+                    
+                    
                     //Need to add event handler for checked and unchecked foreach checkbox
 
-                    grid.Children.Add(checkBox);
+                    //Create a stack panel for the icon
+                    StackPanel stackPanel = new StackPanel();
+                    stackPanel.Orientation = Orientation.Horizontal;
+                    stackPanel.SetValue(Grid.RowProperty, 1);
+                    stackPanel.SetValue(Grid.ColumnProperty, 1);
+
+                    //Delete button
+                    Image deleteIcon = new Image();
+                    deleteIcon.Source = new BitmapImage(new Uri(@"/image/delete.png", UriKind.Relative));
+                    deleteIcon.Height = 25;
+                    deleteIcon.HorizontalAlignment = HorizontalAlignment.Left;
+                    deleteIcon.Uid = $"{recipe.RecipeId}";
+
+                    //add the checkbox and delete icon to the stack panel
+                    stackPanel.Children.Add(checkBox);
+                    stackPanel.Children.Add(deleteIcon);
+
+                    //add the stack panel to the grid
+                    grid.Children.Add(stackPanel);
+                    //Add the element to the page☻
                     recipeList.Children.Add(grid);
                 }
             }
         }
+
+        private void btnGoToShoppingList_Click(object sender, RoutedEventArgs e)
+        {
+            recipeListPage.Visibility = Visibility.Hidden;
+            shoppingListPage.Visibility = Visibility.Visible;
+        }
+
         private void btnAddRecipeCreation_Click(object sender, RoutedEventArgs e)
         {
-            //Bug here
             Recipe recipe = new Recipe();
             recipeListPage.Visibility = Visibility.Hidden;
             recipeCreationPage.Visibility = Visibility.Visible;
@@ -322,16 +346,12 @@ namespace ProjectFinal2195109
             clearTextBox();
         }
 
-        private void btnGoToRecipePage_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         //Recipe creation page
 
         public void createTextBoxForRecipeCreation()
         {
-
+           
+            
 
             TextBox textBoxIngrediant = new TextBox();
             textBoxIngrediant.Width = 300;
@@ -342,7 +362,7 @@ namespace ProjectFinal2195109
             textBoxIngrediant.Style = (Style)this.FindResource("MaterialDesignOutlinedTextBox");
             MaterialDesignThemes.Wpf.HintAssist.SetHint(textBoxIngrediant, "Ingrediants");
             MaterialDesignThemes.Wpf.HintAssist.SetBackground(textBoxIngrediant, Brushes.White);
-            textBoxIngrediant.Name = "txtRecipeIngrediantCreateRecipePage";
+            textBoxIngrediant.Name = txtRecipeIngrediantCreateRecipePage.Text;
 
             //Ingrediant Quantity and Measure
             Grid grid = new Grid();
@@ -364,7 +384,7 @@ namespace ProjectFinal2195109
             textBoxQuantity.Style = (Style)this.FindResource("MaterialDesignOutlinedTextBox");
             MaterialDesignThemes.Wpf.HintAssist.SetHint(textBoxQuantity, "Quantitée");
             MaterialDesignThemes.Wpf.HintAssist.SetBackground(textBoxQuantity, Brushes.White);
-            textBoxQuantity.Name = "txtRecipeQuantityCreateRecipePage";
+            textBoxQuantity.Name = txtRecipeQuantityCreateRecipePage.Text;
 
             //Text box for unit measure
             TextBox textBoxUnit = new TextBox();
@@ -376,7 +396,7 @@ namespace ProjectFinal2195109
             textBoxUnit.Style = (Style)this.FindResource("MaterialDesignOutlinedTextBox");
             MaterialDesignThemes.Wpf.HintAssist.SetHint(textBoxUnit, "Mesure");
             MaterialDesignThemes.Wpf.HintAssist.SetBackground(textBoxUnit, Brushes.White);
-            textBoxUnit.Name = "txtRecipeUnitCreateRecipePage";
+            textBoxUnit.Name = txtRecipeUnitCreateRecipePage.Text;
 
             //Add the unit to the grid
             grid.Children.Add(textBoxQuantity);
@@ -385,6 +405,7 @@ namespace ProjectFinal2195109
             //Add the item to the page
             recipeCreationForm.Children.Add(textBoxIngrediant);
             recipeCreationForm.Children.Add(grid);
+
         }
         //Permette l'ajoute de un field pour un ingrediant
         private void btnAddIngrediantRecipeCreation_Click(object sender, RoutedEventArgs e)
@@ -398,27 +419,15 @@ namespace ProjectFinal2195109
             ingrediant.IngrediantName = ingrediant_Name;
             ingrediant.IngrediantQuantity = ingrediant_Quantity;
             ingrediant.IngrediantMeasurementUnit = ingrediant_Unit;
-            ingrediant.RecipeId = dbContext.Recipes.Count() + 1;
+            ingrediant.RecipeId = dbContext.Recipes.OrderBy(x => x.RecipeId).Last().RecipeId;
 
             if (ingrediant_Name != string.Empty && ingrediant_Quantity.ToString() != string.Empty && ingrediant_Unit != string.Empty)
             {
                 //save the new ingrediant
                 dbContext.Ingrediants.Add(ingrediant);
                 dbContext.SaveChanges();
-                removeNameForTextBox();
                 createTextBoxForRecipeCreation();
             }
-        }
-        public void removeNameForTextBox()
-        {
-            txtRecipeIngrediantCreateRecipePage.IsEnabled = false;
-            txtRecipeQuantityCreateRecipePage.IsEnabled = false;
-            txtRecipeUnitCreateRecipePage.IsEnabled = false;
-
-            txtRecipeIngrediantCreateRecipePage.Name = "";
-            txtRecipeQuantityCreateRecipePage.Name = "";
-            txtRecipeUnitCreateRecipePage.Name = "";
-
         }
 
         //Confirm la creation de la recette
@@ -455,5 +464,15 @@ namespace ProjectFinal2195109
                 dbContext.SaveChanges();
             }
         }
+
+        //Shopping list page
+
+        private void btnGoToRecipePage_Click(object sender, RoutedEventArgs e)
+        {
+            shoppingListPage.Visibility=Visibility.Hidden;
+            recipeListPage.Visibility=Visibility.Visible;
+        }
+
+
     }
 }

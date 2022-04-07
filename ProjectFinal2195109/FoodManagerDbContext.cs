@@ -28,6 +28,7 @@ namespace ProjectFinal2195109
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["FoodManagerConnection"].ConnectionString);
+                //optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["FoodManagerConnectionSchool"].ConnectionString);
             }
         }
 
@@ -54,7 +55,7 @@ namespace ProjectFinal2195109
                 entity.HasOne(d => d.Recipe)
                     .WithMany(p => p.Ingrediants)
                     .HasForeignKey(d => d.RecipeId)
-                    .HasConstraintName("FK__Ingredian__Recip__3D5E1FD2");
+                    .HasConstraintName("FK__Ingredian__Recip__2B3F6F97");
             });
 
             modelBuilder.Entity<ListItem>(entity =>
@@ -74,13 +75,13 @@ namespace ProjectFinal2195109
                 entity.HasOne(d => d.Ingrediant)
                     .WithMany(p => p.ListItems)
                     .HasForeignKey(d => d.IngrediantId)
-                    .HasConstraintName("FK__List_Item__Ingre__440B1D61");
+                    .HasConstraintName("FK__List_Item__Ingre__31EC6D26");
 
                 entity.HasOne(d => d.ShoppingList)
                     .WithMany(p => p.ListItems)
                     .HasForeignKey(d => d.ShoppingListId)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__List_Item__Shopp__4316F928");
+                    .HasConstraintName("FK__List_Item__Shopp__30F848ED");
             });
 
             modelBuilder.Entity<Recipe>(entity =>
@@ -109,7 +110,7 @@ namespace ProjectFinal2195109
                     .WithMany(p => p.Recipes)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__Recipe__UserID__3A81B327");
+                    .HasConstraintName("FK__Recipe__UserID__286302EC");
             });
 
             modelBuilder.Entity<ShoppingList>(entity =>
@@ -125,15 +126,15 @@ namespace ProjectFinal2195109
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.ShoppingLists)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__Shopping___UserI__403A8C7D");
+                    .HasConstraintName("FK__Shopping___UserI__2E1BDC42");
             });
 
             modelBuilder.Entity<User>(entity =>
             {
-                entity.HasIndex(e => e.Username, "UQ__Users__536C85E47A3DF09B")
+                entity.HasIndex(e => e.Username, "UQ__Users__536C85E494C83DB2")
                     .IsUnique();
 
-                entity.HasIndex(e => e.Email, "UQ__Users__A9D105341DCAD1B5")
+                entity.HasIndex(e => e.Email, "UQ__Users__A9D105348E727EAA")
                     .IsUnique();
 
                 entity.HasIndex(e => e.Email, "idx_UserEmail");
