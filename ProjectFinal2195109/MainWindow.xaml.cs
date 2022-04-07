@@ -19,7 +19,7 @@ namespace ProjectFinal2195109
 {
 
     /// <summary>
-    /// 1. Need to figure out how to delete item from list when check
+    /// 1. Need to figure out how to delete item from shopping list when checkbox is unchecked
     /// 2. Fix the bug for ingrediant creation
     /// 3. Add the source for the shopping list data grid
     /// </summary>
@@ -523,7 +523,7 @@ namespace ProjectFinal2195109
             if (result == MessageBoxResult.Yes)
             {
                 dbContext.Recipes.Update(lastRecipe);
-                createIngrediant();
+                //createIngrediant();
                 dbContext.SaveChanges();
                 recipeCreationPage.Visibility = Visibility.Hidden;
                 recipeListPage.Visibility = Visibility.Visible;
