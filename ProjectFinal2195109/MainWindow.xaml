@@ -318,45 +318,12 @@
                                 <TextBox
                                     x:Name="txtRecipePortionsCreateRecipePage"
                                     Width="300"
-                                    Margin="0,15,10,0"
+                                    Margin="0,15,0,0"
                                     materialDesign:HintAssist.Hint="Portion"
                                     BorderBrush="{DynamicResource MaterialDesignDivider}"
                                     BorderThickness="2"
                                     FontSize="18"
                                     Style="{StaticResource MaterialDesignOutlinedTextBox}" />
-                                <TextBox
-                                    x:Name="txtRecipeIngrediantCreateRecipePage"
-                                    Width="300"
-                                    Margin="0,15,0,0"
-                                    materialDesign:HintAssist.Hint="Ingrediant"
-                                    BorderBrush="{DynamicResource MaterialDesignDivider}"
-                                    BorderThickness="2"
-                                    FontSize="18"
-                                    Style="{StaticResource MaterialDesignOutlinedTextBox}" />
-                                <Grid Width="300">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>
-                                    <TextBox
-                                        x:Name="txtRecipeQuantityCreateRecipePage"
-                                        Grid.Column="0"
-                                        Margin="0,15,10,0"
-                                        materialDesign:HintAssist.Hint="Quantité"
-                                        BorderBrush="{DynamicResource MaterialDesignDivider}"
-                                        BorderThickness="2"
-                                        FontSize="18"
-                                        Style="{StaticResource MaterialDesignOutlinedTextBox}" />
-                                    <TextBox
-                                        x:Name="txtRecipeUnitCreateRecipePage"
-                                        Grid.Column="1"
-                                        Margin="10,15,0,0"
-                                        materialDesign:HintAssist.Hint="Mesure"
-                                        BorderBrush="{DynamicResource MaterialDesignDivider}"
-                                        BorderThickness="2"
-                                        FontSize="18"
-                                        Style="{StaticResource MaterialDesignOutlinedTextBox}" />
-                                </Grid>
                                 <!--  Recipe Creation Form End  -->
                             </StackPanel>
                         </ScrollViewer>
@@ -409,7 +376,7 @@
                             <RowDefinition Height="1*" />
                         </Grid.RowDefinitions>
                         <ScrollViewer>
-                            <DataGrid x:Name="shoppingList" Grid.Row="0" />
+                            <ListView x:Name="shoppingList" Grid.Row="0" />
                         </ScrollViewer>
                         <Grid Grid.Row="2">
                             <Grid.ColumnDefinitions>

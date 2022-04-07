@@ -34,6 +34,7 @@ namespace ProjectFinal2195109
         }
         int currentUserNumber = 0;
         int currentUserShoppingList = 0;
+        int currentIngrediant = 0;
         //Theme
 
         //Allow the change of the theme with a toggle button
@@ -68,6 +69,12 @@ namespace ProjectFinal2195109
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            if (recipeCreationPage.Visibility == Visibility.Visible)
+            {
+                var lastRecipe = dbContext.Recipes.OrderBy(x => x.RecipeId).Last();
+                dbContext.Recipes.Remove(lastRecipe);
+                dbContext.SaveChanges();
+            }
             foreach (Grid x in Container.Children)
             {
                 if (x is Grid)
@@ -81,6 +88,12 @@ namespace ProjectFinal2195109
         //Allow to exit the application
         private void exitApp(object sender, RoutedEventArgs e)
         {
+            if(recipeCreationPage.Visibility == Visibility.Visible)
+            {
+                var lastRecipe = dbContext.Recipes.OrderBy(x => x.RecipeId).Last();
+                dbContext.Recipes.Remove(lastRecipe);
+                dbContext.SaveChanges();
+            }
             Application.Current.Shutdown();
         }
 
@@ -89,11 +102,8 @@ namespace ProjectFinal2195109
         {
             txtUsernameLoginPage.Clear();
             txtUsernameCreateAccountPage.Clear();
-            txtRecipeUnitCreateRecipePage.Clear();
             txtRecipeTitleCreateRecipePage.Clear();
-            txtRecipeQuantityCreateRecipePage.Clear();
             txtRecipePortionsCreateRecipePage.Clear();
-            txtRecipeIngrediantCreateRecipePage.Clear();
             txtRecipeDescriptionCreateRecipePage.Clear();
             txtPasswordLoginPage.Clear();
             txtPasswordCreateAccountPage.Clear();
@@ -249,8 +259,7 @@ namespace ProjectFinal2195109
                     return;
                 }
                 else
-                {
-
+                {                 
                     //Create the grid
                     Grid grid = new Grid();
                     //Add margin to the grid
@@ -326,12 +335,11 @@ namespace ProjectFinal2195109
                     //This line is used to add a method to the button
                     deleteIcon.Click += new RoutedEventHandler(deleteRecipe_Click);
 
-
-
                     //add the checkbox and delete icon to the stack panel
                     stackPanel.Children.Add(checkBox);
                     stackPanel.Children.Add(deleteIcon);
 
+                     
                     //add the stack panel to the grid
                     grid.Children.Add(stackPanel);
                     //Add the element to the page☻
@@ -339,11 +347,13 @@ namespace ProjectFinal2195109
                 }
             }
         }
+        //Object sender = la source de l`evenement (le bouton, le checkbox, le textbox etc....)
+        //EventArgs e = information supplementaire sur l`evenement
+        //RoutedEventHandler = pour ajouter l`evenement au boutton -> controlsNameOrUid.EventToHandle += new RoutedEventHandler(nomDeLaMethodAExecuter);
         void deleteRecipe_Click(object sender, EventArgs e)
         {
             string id = ((Button)sender).Uid;
             var recipe = dbContext.Recipes.First(x => x.RecipeId == int.Parse(id));
-            MessageBox.Show(id.ToString());
             dbContext.Recipes.Remove(recipe);
             dbContext.SaveChanges();
             displayRecipeList();
@@ -402,84 +412,103 @@ namespace ProjectFinal2195109
 
         public void createTextBoxForRecipeCreation()
         {
+            //Create the grid
+            Grid grid = new Grid();
+            grid.Width = 300;
+            //Define the row
+            RowDefinition rowDef1 = new RowDefinition();
+            RowDefinition rowDef2 = new RowDefinition();
+            grid.RowDefinitions.Add(rowDef1);
+            grid.RowDefinitions.Add(rowDef2);
 
 
+            Grid grida = new Grid();
+            Grid gridb = new Grid();
+            grida.SetValue(Grid.RowProperty, 0);
+            gridb.SetValue(Grid.RowProperty, 1);
 
+            //Define the column
+            ColumnDefinition colDef1 = new ColumnDefinition();
+            ColumnDefinition colDef2 = new ColumnDefinition();
+            gridb.ColumnDefinitions.Add(colDef1);
+            gridb.ColumnDefinitions.Add(colDef2);
+            colDef1.Width = new GridLength(150, GridUnitType.Star);
+            colDef2.Width = new GridLength(150, GridUnitType.Star);
+
+            //Text box for ingrediant
             TextBox textBoxIngrediant = new TextBox();
-            textBoxIngrediant.Width = 300;
+            //textBoxIngrediant.Width = 300;
+            textBoxIngrediant.SetValue(Grid.RowProperty, 0);
             textBoxIngrediant.Margin = new Thickness(0, 15, 0, 0);
             textBoxIngrediant.BorderThickness = new Thickness(2);
             textBoxIngrediant.FontSize = 18;
             textBoxIngrediant.BorderBrush = (Brush)this.FindResource("MaterialDesignDivider");
             textBoxIngrediant.Style = (Style)this.FindResource("MaterialDesignOutlinedTextBox");
-            MaterialDesignThemes.Wpf.HintAssist.SetHint(textBoxIngrediant, "Ingrediants");
-            MaterialDesignThemes.Wpf.HintAssist.SetBackground(textBoxIngrediant, Brushes.White);
-            textBoxIngrediant.Name = txtRecipeIngrediantCreateRecipePage.Text;
-
-            //Ingrediant Quantity and Measure
-            Grid grid = new Grid();
-            grid.Width = 300;
-            //Define the column
-            ColumnDefinition colDef1 = new ColumnDefinition();
-            ColumnDefinition colDef2 = new ColumnDefinition();
-            //Add the column to the definition
-            grid.ColumnDefinitions.Add(colDef1);
-            grid.ColumnDefinitions.Add(colDef2);
+            HintAssist.SetHint(textBoxIngrediant, "Ingrediants");
+            HintAssist.SetBackground(textBoxIngrediant, Brushes.White);
+            textBoxIngrediant.Name = $"txtRecipeIngrediantCreateRecipePage{currentIngrediant}";
 
             //Text box for quantity
             TextBox textBoxQuantity = new TextBox();
             textBoxQuantity.SetValue(Grid.ColumnProperty, 0);
+            textBoxQuantity.SetValue(Grid.RowProperty, 1);
             textBoxQuantity.Margin = new Thickness(0, 15, 10, 0);
             textBoxQuantity.BorderThickness = new Thickness(2);
             textBoxQuantity.FontSize = 18;
             textBoxQuantity.BorderBrush = (Brush)this.FindResource("MaterialDesignDivider");
             textBoxQuantity.Style = (Style)this.FindResource("MaterialDesignOutlinedTextBox");
-            MaterialDesignThemes.Wpf.HintAssist.SetHint(textBoxQuantity, "Quantitée");
-            MaterialDesignThemes.Wpf.HintAssist.SetBackground(textBoxQuantity, Brushes.White);
-            textBoxQuantity.Name = txtRecipeQuantityCreateRecipePage.Text;
+            HintAssist.SetHint(textBoxQuantity, "Quantitée");
+            HintAssist.SetBackground(textBoxQuantity, Brushes.White);
+            textBoxQuantity.Name = $"txtRecipeQuantityCreateRecipePage{currentIngrediant}";
 
             //Text box for unit measure
             TextBox textBoxUnit = new TextBox();
             textBoxUnit.SetValue(Grid.ColumnProperty, 1);
-            textBoxUnit.Margin = new Thickness(0, 15, 10, 0);
+            textBoxUnit.SetValue(Grid.RowProperty, 1);
+            textBoxUnit.Margin = new Thickness(10, 15, 0, 0);
             textBoxUnit.BorderThickness = new Thickness(2);
             textBoxUnit.FontSize = 18;
             textBoxUnit.BorderBrush = (Brush)this.FindResource("MaterialDesignDivider");
             textBoxUnit.Style = (Style)this.FindResource("MaterialDesignOutlinedTextBox");
-            MaterialDesignThemes.Wpf.HintAssist.SetHint(textBoxUnit, "Mesure");
-            MaterialDesignThemes.Wpf.HintAssist.SetBackground(textBoxUnit, Brushes.White);
-            textBoxUnit.Name = txtRecipeUnitCreateRecipePage.Text;
+            HintAssist.SetHint(textBoxUnit, "Mesure");
+            HintAssist.SetBackground(textBoxUnit, Brushes.White);
+            textBoxUnit.Name = $"txtRecipeUnitCreateRecipePage{currentIngrediant}";
 
             //Add the unit to the grid
-            grid.Children.Add(textBoxQuantity);
-            grid.Children.Add(textBoxUnit);
+            grida.Children.Add(textBoxIngrediant);
+            gridb.Children.Add(textBoxQuantity);
+            gridb.Children.Add(textBoxUnit);
 
+            grid.Children.Add(grida);
+            grid.Children.Add(gridb);
             //Add the item to the page
-            recipeCreationForm.Children.Add(textBoxIngrediant);
             recipeCreationForm.Children.Add(grid);
-
+            currentIngrediant++;
         }
+
         //Permette l'ajoute de un field pour un ingrediant
         private void btnAddIngrediantRecipeCreation_Click(object sender, RoutedEventArgs e)
         {
-
-            var ingrediant_Name = txtRecipeIngrediantCreateRecipePage.Text;
-            var ingrediant_Quantity = int.Parse(txtRecipeQuantityCreateRecipePage.Text);
-            var ingrediant_Unit = txtRecipeUnitCreateRecipePage.Text;
-
-            Ingrediant ingrediant = new Ingrediant();
-            ingrediant.IngrediantName = ingrediant_Name;
-            ingrediant.IngrediantQuantity = ingrediant_Quantity;
-            ingrediant.IngrediantMeasurementUnit = ingrediant_Unit;
-            ingrediant.RecipeId = dbContext.Recipes.OrderBy(x => x.RecipeId).Last().RecipeId;
-
-            if (ingrediant_Name != string.Empty && ingrediant_Quantity.ToString() != string.Empty && ingrediant_Unit != string.Empty)
-            {
-                //save the new ingrediant
-                dbContext.Ingrediants.Add(ingrediant);
-                dbContext.SaveChanges();
                 createTextBoxForRecipeCreation();
+        }
+
+        public void createIngrediant()
+        {
+            foreach (UIElement x in recipeCreationForm.Children)
+            {
+                if(x is TextBox)
+                {
+                    
+                    Ingrediant i = new Ingrediant();
+                    i.RecipeId = dbContext.Recipes.OrderBy(x => x.RecipeId).Last().RecipeId;
+                    //Add name
+                    
+                    //Add quantity
+                    //Add measurement unit
+                    dbContext.Ingrediants.Add(i);
+                }
             }
+            dbContext.SaveChanges();
         }
 
         //Confirm la creation de la recette
@@ -494,13 +523,13 @@ namespace ProjectFinal2195109
             if (result == MessageBoxResult.Yes)
             {
                 dbContext.Recipes.Update(lastRecipe);
+                createIngrediant();
                 dbContext.SaveChanges();
                 recipeCreationPage.Visibility = Visibility.Hidden;
                 recipeListPage.Visibility = Visibility.Visible;
                 displayRecipeList();
                 clearTextBox();
             }
-
         }
 
         private void btnCancelRecipeCreation_Click(object sender, RoutedEventArgs e)
