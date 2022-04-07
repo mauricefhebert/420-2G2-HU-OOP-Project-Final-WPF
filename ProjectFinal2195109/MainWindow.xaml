@@ -295,17 +295,6 @@
                         </Grid.RowDefinitions>
                         <ScrollViewer>
                             <StackPanel x:Name="recipeCreationForm" Grid.Row="0" Width="300" HorizontalAlignment="Center">
-                                <!--  Recipe Creation Form Start  -->
-                                <!--<WrapPanel x:Name="recipeGrid">-->
-                                    <!--<Grid.RowDefinitions>
-                                        <RowDefinition />
-                                        <RowDefinition />
-                                        <RowDefinition />
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition />
-                                        <ColumnDefinition />
-                                    </Grid.ColumnDefinitions>-->
                                 <TextBox
                                     x:Name="txtRecipeTitleCreateRecipePage"
                                     Width="300"
@@ -386,7 +375,7 @@
                             <RowDefinition Height="1*" />
                         </Grid.RowDefinitions>
                         <ScrollViewer>
-                            <ListView x:Name="shoppingList" Grid.Row="0" />
+                            <ListView x:Name="shoppingListData" Grid.Row="0" />
                         </ScrollViewer>
                         <Grid Grid.Row="2">
                             <Grid.ColumnDefinitions>

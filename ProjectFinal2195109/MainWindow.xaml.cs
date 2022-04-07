@@ -33,7 +33,7 @@ namespace ProjectFinal2195109
         }
         int currentUserNumber = 0;
         int currentUserShoppingList = 0;
-        int currentIngrediant = 0;
+        
         //Theme
 
         //Allow the change of the theme with a toggle button
@@ -149,7 +149,6 @@ namespace ProjectFinal2195109
             }
 
         }
-
 
         //Create account page
 
@@ -384,6 +383,20 @@ namespace ProjectFinal2195109
         {
             recipeListPage.Visibility = Visibility.Hidden;
             shoppingListPage.Visibility = Visibility.Visible;
+            //dbContext.ShoppingLists.First(x => x.UserId == currentUserNumber).ListItems.ToList().Join(dbContext.Ingrediants,c => c.IngrediantId,d => d.IngrediantId,e => new {name = e.});
+            var query = from user in dbContext.Users
+                        join shoppingList in dbContext.ShoppingLists on user.UserId equals shoppingList.UserId
+                        join listItem in dbContext.ListItems on shoppingList.ShoppingListId equals listItem.ShoppingListId
+                        join ingrediant in dbContext.Ingrediants on listItem.IngrediantId equals ingrediant.IngrediantId
+                        select new
+                        {
+                            name = ingrediant.IngrediantName,
+                            quantity = ingrediant.IngrediantQuantity,
+                            unit = ingrediant.IngrediantMeasurementUnit,
+                        };
+                var list = query.ToList();
+            shoppingListData.ItemsSource = list;
+            
         }
 
         private void btnAddRecipeCreation_Click(object sender, RoutedEventArgs e)
@@ -411,7 +424,6 @@ namespace ProjectFinal2195109
             textBoxIngrediant.Style = (Style)this.FindResource("MaterialDesignOutlinedTextBox");
             HintAssist.SetHint(textBoxIngrediant, "Ingrediants");
             HintAssist.SetBackground(textBoxIngrediant, Brushes.White);
-            textBoxIngrediant.Name = $"txtRecipeIngrediantCreateRecipePage{currentIngrediant}";
             textBoxIngrediant.SetValue(Grid.ColumnSpanProperty, 2);
 
             //Text box for quantity
@@ -423,7 +435,6 @@ namespace ProjectFinal2195109
             textBoxQuantity.Style = (Style)this.FindResource("MaterialDesignOutlinedTextBox");
             HintAssist.SetHint(textBoxQuantity, "Quantitée");
             HintAssist.SetBackground(textBoxQuantity, Brushes.White);
-            textBoxQuantity.Name = $"txtRecipeQuantityCreateRecipePage{currentIngrediant}";
             textBoxQuantity.SetValue(Grid.ColumnProperty, 0);
 
             //Text box for unit measure
@@ -435,13 +446,7 @@ namespace ProjectFinal2195109
             textBoxUnit.Style = (Style)this.FindResource("MaterialDesignOutlinedTextBox");
             HintAssist.SetHint(textBoxUnit, "Mesure");
             HintAssist.SetBackground(textBoxUnit, Brushes.White);
-            textBoxUnit.Name = $"txtRecipeUnitCreateRecipePage{currentIngrediant}";
             textBoxUnit.SetValue(Grid.ColumnProperty, 1);
-
-
-            //recipeGrid.Children.Add(textBoxIngrediant);
-            //recipeGrid.Children.Add(textBoxQuantity);
-            //recipeGrid.Children.Add(textBoxUnit);
 
             recipeCreationForm.Children.Add(textBoxIngrediant);
             recipeCreationForm.Children.Add(textBoxQuantity);
