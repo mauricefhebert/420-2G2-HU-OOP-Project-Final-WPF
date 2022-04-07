@@ -275,9 +275,10 @@
                                 Grid.Column="1"
                                 Height="53"
                                 materialDesign:ButtonAssist.CornerRadius="10"
+                                Click="btnGoToShoppingList_Click"
                                 Content="Liste d'épicerie"
                                 FontSize="18"
-                                Style="{StaticResource MaterialDesignFlatButton}" Click="btnGoToShoppingList_Click" />
+                                Style="{StaticResource MaterialDesignFlatButton}" />
                         </Grid>
                     </Grid>
                     <!--  End of Recipe List page  -->
@@ -408,7 +409,7 @@
                             <RowDefinition Height="1*" />
                         </Grid.RowDefinitions>
                         <ScrollViewer>
-                            <DataGrid x:Name="shoppingList" Grid.Row="0"/>
+                            <DataGrid x:Name="shoppingList" Grid.Row="0" />
                         </ScrollViewer>
                         <Grid Grid.Row="2">
                             <Grid.ColumnDefinitions>

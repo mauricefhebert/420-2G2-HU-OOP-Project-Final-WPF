@@ -298,9 +298,8 @@ namespace ProjectFinal2195109
                     checkBox.Height = 40;
                     checkBox.HorizontalAlignment = HorizontalAlignment.Right;
                     checkBox.Uid = $"{recipe.RecipeId}";
-                    
-                    
-                    //Need to add event handler for checked and unchecked foreach checkbox
+                    checkBox.Checked += new RoutedEventHandler(addRecipeIngrediantToRecipeList_Checked);
+
 
                     //Create a stack panel for the icon
                     StackPanel stackPanel = new StackPanel();
@@ -309,11 +308,16 @@ namespace ProjectFinal2195109
                     stackPanel.SetValue(Grid.ColumnProperty, 1);
 
                     //Delete button
-                    Image deleteIcon = new Image();
-                    deleteIcon.Source = new BitmapImage(new Uri(@"/image/delete.png", UriKind.Relative));
-                    deleteIcon.Height = 25;
+                    Button deleteIcon = new Button();
+                    deleteIcon.Style = (Style)this.FindResource("MaterialDesignFlatButton");
+                    deleteIcon.Content = "X";
                     deleteIcon.HorizontalAlignment = HorizontalAlignment.Left;
                     deleteIcon.Uid = $"{recipe.RecipeId}";
+                    deleteIcon.Cursor = Cursors.Hand;
+                    //This line is used to add a method to the button
+                    deleteIcon.Click += new RoutedEventHandler(deleteRecipe_Click);
+
+
 
                     //add the checkbox and delete icon to the stack panel
                     stackPanel.Children.Add(checkBox);
@@ -325,6 +329,26 @@ namespace ProjectFinal2195109
                     recipeList.Children.Add(grid);
                 }
             }
+        }
+        void deleteRecipe_Click(object sender, EventArgs e)
+        {
+            string id = ((Button)sender).Uid;
+            var recipe = dbContext.Recipes.First(x => x.RecipeId == int.Parse(id));
+            MessageBox.Show(id.ToString());
+            dbContext.Recipes.Remove(recipe);
+            dbContext.SaveChanges();
+            displayRecipeList();
+        }
+
+        public List<Ingrediant> item = new List<Ingrediant>(8);
+        void addRecipeIngrediantToRecipeList_Checked(object sender, EventArgs e)
+        {
+            string id = ((CheckBox)sender).Uid;
+            var recipe = dbContext.Recipes.First(x => x.RecipeId == int.Parse(id));
+
+            //dbContext.Ingrediants.Where(x => x.RecipeId == int.Parse(id)).ToList().Add());\
+            //MessageBox.Show(dbContext.Ingrediants.Where(x => x.RecipeId == int.Parse(id)).ToString());
+            MessageBox.Show(dbContext.Ingrediants.FirstOrDefault(x => x.RecipeId == int.Parse(id))?.IngrediantName);
         }
 
         private void btnGoToShoppingList_Click(object sender, RoutedEventArgs e)
@@ -350,8 +374,8 @@ namespace ProjectFinal2195109
 
         public void createTextBoxForRecipeCreation()
         {
-           
-            
+
+
 
             TextBox textBoxIngrediant = new TextBox();
             textBoxIngrediant.Width = 300;
@@ -469,8 +493,8 @@ namespace ProjectFinal2195109
 
         private void btnGoToRecipePage_Click(object sender, RoutedEventArgs e)
         {
-            shoppingListPage.Visibility=Visibility.Hidden;
-            recipeListPage.Visibility=Visibility.Visible;
+            shoppingListPage.Visibility = Visibility.Hidden;
+            recipeListPage.Visibility = Visibility.Visible;
         }
 
 
