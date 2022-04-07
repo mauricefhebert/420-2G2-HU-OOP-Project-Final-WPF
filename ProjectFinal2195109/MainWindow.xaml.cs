@@ -19,9 +19,9 @@ namespace ProjectFinal2195109
 {
 
     /// <summary>
-    /// 1. Handle the checkbox checked/unchecked event ->if checked recipe ingrediant add to shopping list, if unchecked remove ingrediant fom shopping list
+    /// 1. Need to figure out how to delete item from list when check
     /// 2. Fix the bug for ingrediant creation
-    /// 3. Add the source for the shopping list
+    /// 3. Add the source for the shopping list data grid
     /// </summary>
 
     public partial class MainWindow : Window
@@ -33,6 +33,7 @@ namespace ProjectFinal2195109
             InitializeComponent();
         }
         int currentUserNumber = 0;
+        int currentUserShoppingList = 0;
         //Theme
 
         //Allow the change of the theme with a toggle button
@@ -124,6 +125,7 @@ namespace ProjectFinal2195109
                 User user = new User();
                 user = dbContext.Users.First(u => u.Username == Username);
                 currentUserNumber = user.UserId;
+                currentUserShoppingList = dbContext.ShoppingLists.FirstOrDefault(x => x.UserId == user.UserId).ShoppingListId;
                 clearTextBox();
                 displayRecipeList();
             }
@@ -163,6 +165,12 @@ namespace ProjectFinal2195109
                 dbContext.SaveChanges();
                 clearTextBox();
                 currentUserNumber = user.UserId;
+
+                ShoppingList shoppingList = new ShoppingList();
+                shoppingList.UserId = currentUserNumber;
+                dbContext.ShoppingLists.Add(shoppingList);
+                dbContext.SaveChanges();
+                currentUserShoppingList = shoppingList.ShoppingListId;
                 createAccountPage.Visibility = Visibility.Hidden;
                 recipeListPage.Visibility = Visibility.Visible;
             }
@@ -299,6 +307,7 @@ namespace ProjectFinal2195109
                     checkBox.HorizontalAlignment = HorizontalAlignment.Right;
                     checkBox.Uid = $"{recipe.RecipeId}";
                     checkBox.Checked += new RoutedEventHandler(addRecipeIngrediantToRecipeList_Checked);
+                    checkBox.Unchecked += new RoutedEventHandler(removeRecipeIngrediantFromRecipeList_Checked);
 
 
                     //Create a stack panel for the icon
@@ -340,15 +349,34 @@ namespace ProjectFinal2195109
             displayRecipeList();
         }
 
-        public List<Ingrediant> item = new List<Ingrediant>(8);
         void addRecipeIngrediantToRecipeList_Checked(object sender, EventArgs e)
         {
             string id = ((CheckBox)sender).Uid;
-            var recipe = dbContext.Recipes.First(x => x.RecipeId == int.Parse(id));
+            foreach (var ingrediant in dbContext.Ingrediants)
+            {
+                if (ingrediant.RecipeId == int.Parse(id))
+                {
+                    ListItem item = new ListItem();
+                    item.ShoppingListId = currentUserShoppingList;
+                    item.IngrediantId = ingrediant.IngrediantId;
+                    dbContext.ListItems.Add(item);
+                }
+            }
+            dbContext.SaveChanges();
+        }
 
-            //dbContext.Ingrediants.Where(x => x.RecipeId == int.Parse(id)).ToList().Add());\
-            //MessageBox.Show(dbContext.Ingrediants.Where(x => x.RecipeId == int.Parse(id)).ToString());
-            MessageBox.Show(dbContext.Ingrediants.FirstOrDefault(x => x.RecipeId == int.Parse(id))?.IngrediantName);
+        void removeRecipeIngrediantFromRecipeList_Checked(object sender, EventArgs e)
+        {
+            string id = ((CheckBox)sender).Uid;
+            foreach (var ingrediant in dbContext.Ingrediants)
+            {
+                if (ingrediant.RecipeId == int.Parse(id))
+                {
+                    //Need to figure out how to delete item from list
+                    //dbContext.ListItems.Remove(dbContext.ListItems.First(x => x.IngrediantId == ingrediant.IngrediantId));
+                }
+            }
+            dbContext.SaveChanges();
         }
 
         private void btnGoToShoppingList_Click(object sender, RoutedEventArgs e)

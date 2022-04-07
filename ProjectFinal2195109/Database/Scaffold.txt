@@ -10,3 +10,12 @@ Scaffold-DbContext -Connection "Data Source=localhost; Initial Catalog=FoodManag
 
 
 optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["FoodManagerConnection"].ConnectionString);
+
+
+select * from Users
+
+select * from Recipe
+select * from Ingrediant
+
+select * from Shopping_List
+select * from List_Item
