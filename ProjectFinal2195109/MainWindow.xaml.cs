@@ -375,9 +375,23 @@ namespace ProjectFinal2195109
 
         void removeRecipeIngrediantFromRecipeList_Checked(object sender, EventArgs e)
         {
+            /**
+             * 1.get the recipe
+             * 2.get all the recipe ingrediant id
+             * 3.remove all the list item that match the ingrediant id
+             */
+
+
             string id = ((CheckBox)sender).Uid;
-            //Todo
-            //dbContext.SaveChanges();
+            foreach(var ingrediant in dbContext.ListItems)
+            {
+                if(ingrediant.IngrediantId == int.Parse(id))
+                {
+                    dbContext.ListItems.Remove(ingrediant);
+                }
+            }
+            
+            dbContext.SaveChanges();
         }
 
         private void btnGoToShoppingList_Click(object sender, RoutedEventArgs e)
