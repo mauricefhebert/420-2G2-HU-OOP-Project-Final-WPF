@@ -20,7 +20,8 @@ namespace ProjectFinal2195109
 
     /// <summary>
     /// 1. Need to figure out how to delete item from shopping list when checkbox is unchecked
-    /// 2. Add the source for the shopping list data grid
+    /// 2. the source for the data list is now working i only need to limit is range to the active recipe -> add a bool value to recipe and toggle the recipe to 
+    /// on or off with the checkbox
     /// </summary>
 
     public partial class MainWindow : Window
@@ -388,11 +389,13 @@ namespace ProjectFinal2195109
                         join shoppingList in dbContext.ShoppingLists on user.UserId equals shoppingList.UserId
                         join listItem in dbContext.ListItems on shoppingList.ShoppingListId equals listItem.ShoppingListId
                         join ingrediant in dbContext.Ingrediants on listItem.IngrediantId equals ingrediant.IngrediantId
+                        where currentUserNumber == user.UserId
+                        group ingrediant by new { name = ingrediant.IngrediantName, unit = ingrediant.IngrediantMeasurementUnit } into x
                         select new
                         {
-                            name = ingrediant.IngrediantName,
-                            quantity = ingrediant.IngrediantQuantity,
-                            unit = ingrediant.IngrediantMeasurementUnit,
+                            name = x.Key.name,
+                            quantity = x.Sum(x => x.IngrediantQuantity),
+                            unit = x.Key.unit,
                         };
             var list = query.ToList();
             if(list != null)
