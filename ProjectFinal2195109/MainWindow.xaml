@@ -294,7 +294,11 @@
                             <RowDefinition Height="1*" />
                         </Grid.RowDefinitions>
                         <ScrollViewer>
-                            <StackPanel x:Name="recipeCreationForm" Grid.Row="0" Width="300" HorizontalAlignment="Center">
+                            <StackPanel
+                                x:Name="recipeCreationForm"
+                                Grid.Row="0"
+                                Width="300"
+                                HorizontalAlignment="Center">
                                 <TextBox
                                     x:Name="txtRecipeTitleCreateRecipePage"
                                     Width="300"
@@ -375,7 +379,23 @@
                             <RowDefinition Height="1*" />
                         </Grid.RowDefinitions>
                         <ScrollViewer>
-                            <ListView x:Name="shoppingListData" Grid.Row="0" />
+                            <ListView x:Name="shoppingListData" Grid.Row="0">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <WrapPanel>
+                                            <TextBlock
+                                                Margin="0,0,10,0"
+                                                FontWeight="Bold"
+                                                Text="{Binding name}" />
+                                            <TextBlock
+                                                Margin="0,0,10,0"
+                                                FontWeight="Bold"
+                                                Text="{Binding quantity}" />
+                                            <TextBlock FontWeight="Bold" Text="{Binding unit}" />
+                                        </WrapPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
                         </ScrollViewer>
                         <Grid Grid.Row="2">
                             <Grid.ColumnDefinitions>

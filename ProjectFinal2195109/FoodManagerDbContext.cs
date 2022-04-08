@@ -27,8 +27,8 @@ namespace ProjectFinal2195109
         {
             if (!optionsBuilder.IsConfigured)
             {
-                //optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["FoodManagerConnection"].ConnectionString);
-                optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["FoodManagerConnectionSchool"].ConnectionString);
+                optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["FoodManagerConnection"].ConnectionString);
+                //optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["FoodManagerConnectionSchool"].ConnectionString);
             }
         }
 

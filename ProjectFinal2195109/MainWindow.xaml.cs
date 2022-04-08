@@ -394,8 +394,11 @@ namespace ProjectFinal2195109
                             quantity = ingrediant.IngrediantQuantity,
                             unit = ingrediant.IngrediantMeasurementUnit,
                         };
-                var list = query.ToList();
+            var list = query.ToList();
+            if(list != null)
+            {
             shoppingListData.ItemsSource = list;
+            }
             
         }
 
