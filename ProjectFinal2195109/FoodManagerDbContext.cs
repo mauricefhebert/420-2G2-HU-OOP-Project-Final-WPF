@@ -55,7 +55,8 @@ namespace ProjectFinal2195109
                 entity.HasOne(d => d.Recipe)
                     .WithMany(p => p.Ingrediants)
                     .HasForeignKey(d => d.RecipeId)
-                    .HasConstraintName("FK__Ingredian__Recip__2B3F6F97");
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK__Ingredian__Recip__3E52440B");
             });
 
             modelBuilder.Entity<ListItem>(entity =>
@@ -64,24 +65,33 @@ namespace ProjectFinal2195109
 
                 entity.HasIndex(e => e.IngrediantId, "idx_IngrediantID");
 
+                entity.HasIndex(e => e.RecipeId, "idx_RecipeID");
+
                 entity.HasIndex(e => e.ShoppingListId, "idx_ShoppingListID");
 
                 entity.Property(e => e.ListItemId).HasColumnName("ListItemID");
 
                 entity.Property(e => e.IngrediantId).HasColumnName("IngrediantID");
 
+                entity.Property(e => e.RecipeId).HasColumnName("RecipeID");
+
                 entity.Property(e => e.ShoppingListId).HasColumnName("ShoppingListID");
 
                 entity.HasOne(d => d.Ingrediant)
                     .WithMany(p => p.ListItems)
                     .HasForeignKey(d => d.IngrediantId)
-                    .HasConstraintName("FK__List_Item__Ingre__31EC6D26");
+                    .HasConstraintName("FK__List_Item__Ingre__4D94879B");
+
+                entity.HasOne(d => d.Recipe)
+                    .WithMany(p => p.ListItems)
+                    .HasForeignKey(d => d.RecipeId)
+                    .HasConstraintName("FK__List_Item__Recip__4E88ABD4");
 
                 entity.HasOne(d => d.ShoppingList)
                     .WithMany(p => p.ListItems)
                     .HasForeignKey(d => d.ShoppingListId)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__List_Item__Shopp__30F848ED");
+                    .HasConstraintName("FK__List_Item__Shopp__4CA06362");
             });
 
             modelBuilder.Entity<Recipe>(entity =>
@@ -92,13 +102,11 @@ namespace ProjectFinal2195109
 
                 entity.Property(e => e.RecipeId).HasColumnName("RecipeID");
 
-                entity.Property(e => e.CookTime).HasColumnType("datetime");
-
                 entity.Property(e => e.Description)
                     .HasMaxLength(200)
                     .IsUnicode(false);
 
-                entity.Property(e => e.PrepTime).HasColumnType("datetime");
+                entity.Property(e => e.IsActive).HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.Title)
                     .HasMaxLength(50)
@@ -110,7 +118,7 @@ namespace ProjectFinal2195109
                     .WithMany(p => p.Recipes)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__Recipe__UserID__286302EC");
+                    .HasConstraintName("FK__Recipe__UserID__3B75D760");
             });
 
             modelBuilder.Entity<ShoppingList>(entity =>
@@ -126,15 +134,16 @@ namespace ProjectFinal2195109
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.ShoppingLists)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__Shopping___UserI__2E1BDC42");
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK__Shopping___UserI__412EB0B6");
             });
 
             modelBuilder.Entity<User>(entity =>
             {
-                entity.HasIndex(e => e.Username, "UQ__Users__536C85E494C83DB2")
+                entity.HasIndex(e => e.Username, "UQ__Users__536C85E470CA55D1")
                     .IsUnique();
 
-                entity.HasIndex(e => e.Email, "UQ__Users__A9D105348E727EAA")
+                entity.HasIndex(e => e.Email, "UQ__Users__A9D10534D0289D65")
                     .IsUnique();
 
                 entity.HasIndex(e => e.Email, "idx_UserEmail");

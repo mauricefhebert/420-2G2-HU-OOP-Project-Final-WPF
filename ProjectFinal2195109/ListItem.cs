@@ -8,8 +8,10 @@ namespace ProjectFinal2195109
         public int ListItemId { get; set; }
         public int? ShoppingListId { get; set; }
         public int? IngrediantId { get; set; }
+        public int? RecipeId { get; set; }
 
         public virtual Ingrediant? Ingrediant { get; set; }
+        public virtual Recipe? Recipe { get; set; }
         public virtual ShoppingList? ShoppingList { get; set; }
     }
 }

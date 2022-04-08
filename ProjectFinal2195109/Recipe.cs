@@ -8,17 +8,18 @@ namespace ProjectFinal2195109
         public Recipe()
         {
             Ingrediants = new HashSet<Ingrediant>();
+            ListItems = new HashSet<ListItem>();
         }
 
         public int RecipeId { get; set; }
         public string Title { get; set; } = null!;
         public string? Description { get; set; }
         public double? Serving { get; set; }
-        public DateTime? PrepTime { get; set; }
-        public DateTime? CookTime { get; set; }
+        public bool? IsActive { get; set; }
         public int? UserId { get; set; }
 
         public virtual User? User { get; set; }
         public virtual ICollection<Ingrediant> Ingrediants { get; set; }
+        public virtual ICollection<ListItem> ListItems { get; set; }
     }
 }
