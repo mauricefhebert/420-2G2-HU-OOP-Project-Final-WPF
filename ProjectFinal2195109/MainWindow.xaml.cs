@@ -325,7 +325,7 @@ namespace ProjectFinal2195109
                     //Delete button
                     Button deleteIcon = new Button();
                     deleteIcon.Style = (Style)this.FindResource("MaterialDesignFlatButton");
-                    deleteIcon.Content = "X";
+                    deleteIcon.Content = "🗑";
                     deleteIcon.HorizontalAlignment = HorizontalAlignment.Left;
                     deleteIcon.Uid = $"{recipe.RecipeId}";
                     deleteIcon.Cursor = Cursors.Hand;
