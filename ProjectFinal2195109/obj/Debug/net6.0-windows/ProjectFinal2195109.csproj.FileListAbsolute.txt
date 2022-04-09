@@ -120,3 +120,4 @@ E:\Cegep-Course\Session-2\Object-Oriented\Project\ProjectFinalOOPWPF\ProjectFina
 E:\Cegep-Course\Session-2\Object-Oriented\Project\ProjectFinalOOPWPF\ProjectFinal2195109\obj\Debug\net6.0-windows\ProjectFinal2195109.genruntimeconfig.cache
 E:\Cegep-Course\Session-2\Object-Oriented\Project\ProjectFinalOOPWPF\ProjectFinal2195109\bin\Debug\net6.0-windows\ProjectFinal2195109.pdb
 E:\Cegep-Course\Session-2\Object-Oriented\Project\ProjectFinalOOPWPF\ProjectFinal2195109\obj\Debug\net6.0-windows\ref\ProjectFinal2195109.dll
+E:\Cegep-Course\Session-2\Object-Oriented\Project\ProjectFinalOOPWPF\ProjectFinal2195109\bin\Debug\net6.0-windows\BespokeFusion.dll

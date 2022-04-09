@@ -1,4 +1,5 @@
-﻿using MaterialDesignThemes.Wpf;
+﻿using BespokeFusion;
+using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -189,12 +190,12 @@ namespace ProjectFinal2195109
             if (courriel == string.Empty)
             {
                 errorEmailCreateAccount.Visibility = Visibility.Visible;
-                errorEmailCreateAccount.Text = "Le courriel ne peu etre vide";
+                errorEmailCreateAccount.Text = "Le courriel ne peut être vide";
             }
             else if (dbContext.Users.Any(u => u.Email == courriel))
             {
                 errorEmailCreateAccount.Visibility = Visibility.Visible;
-                errorEmailCreateAccount.Text = "Le courriel entrée est associées a un compte";
+                errorEmailCreateAccount.Text = "Le courriel entrée et associé à un compte";
             }
             else
             {
@@ -210,12 +211,12 @@ namespace ProjectFinal2195109
             if (Username == string.Empty)
             {
                 errorUsernameCreateAccount.Visibility = Visibility.Visible;
-                errorUsernameCreateAccount.Text = "Le nom d'utilisateur ne peu etre vide";
+                errorUsernameCreateAccount.Text = "Le nom d'utilisateur ne peut être vide";
             }
             else if (dbContext.Users.Any(u => u.Username == Username))
             {
                 errorUsernameCreateAccount.Visibility = Visibility.Visible;
-                errorUsernameCreateAccount.Text = "L'utilisateur entrée est associées a un compte";
+                errorUsernameCreateAccount.Text = "Le nom d'utilisateur entrée et associé à un compte";
             }
             else
             {
@@ -231,7 +232,7 @@ namespace ProjectFinal2195109
             if (Password.Length < 8 || Password.Length > 20)
             {
                 errorPasswordCreateAccount.Visibility = Visibility.Visible;
-                errorPasswordCreateAccount.Text = "Le mot de passe dois etre entre 8 et 20 caracters";
+                errorPasswordCreateAccount.Text = "Le mot de passe doit être entre 8 et 20 caractères";
             }
             else
             {
@@ -338,7 +339,7 @@ namespace ProjectFinal2195109
 
                     //add the stack panel to the grid
                     grid.Children.Add(stackPanel);
-                    //Add the element to the page☻
+                    //Add the element to the page
                     recipeList.Children.Add(grid);
 
                     checkBoxList.Add(checkBox);
@@ -356,6 +357,7 @@ namespace ProjectFinal2195109
             dbContext.Recipes.Remove(recipe);
             dbContext.SaveChanges();
             var index = checkBoxList.FindIndex(x => x.Uid == id);
+            checkBoxList.RemoveAt(index);
             checkBoxList.RemoveAt(index);
             displayRecipeList();
             resetCheckBox();
@@ -525,8 +527,20 @@ namespace ProjectFinal2195109
             lastRecipe.Title = txtRecipeTitleCreateRecipePage.Text;
             lastRecipe.Description = txtRecipeDescriptionCreateRecipePage.Text;
             lastRecipe.Serving = int.Parse(txtRecipePortionsCreateRecipePage.Text);
-            var result = MessageBox.Show("Etez-vous certain de vouloir créer cette recette?", "Confirmation", MessageBoxButton.YesNo);
-            if (result == MessageBoxResult.Yes)
+            CustomMaterialMessageBox msg = new CustomMaterialMessageBox
+            {
+                Width = 400,
+                TxtTitle = { Text = "Confirmation", Foreground = Brushes.White },
+                TxtMessage = { Text = "Etez-vous certain de vouloir créer cette recette?", Foreground = Brushes.Black },
+                BtnOk = { Content = "Oui", Background = new SolidColorBrush(Color.FromArgb(255, 63, 72, 204)), BorderBrush = new SolidColorBrush(Color.FromArgb(255, 63, 72, 204)) },
+                BtnCancel = { Content = "Non", Background = Brushes.White, Foreground = new SolidColorBrush(Color.FromArgb(255, 63, 72, 204)), BorderBrush = Brushes.White },
+                MainContentControl = { Background = Brushes.White },
+                TitleBackgroundPanel = { Background = new SolidColorBrush(Color.FromArgb(255, 63, 72, 204)) },
+                BorderBrush = new SolidColorBrush(Color.FromArgb(255, 63, 72, 204))
+            };
+            msg.Show();
+            MessageBoxResult results = msg.Result;
+            if (results == MessageBoxResult.OK)
             {
                 dbContext.Recipes.Update(lastRecipe);
                 createIngrediants();
@@ -535,7 +549,6 @@ namespace ProjectFinal2195109
                 recipeListPage.Visibility = Visibility.Visible;
                 displayRecipeList();
                 clearTextBox();
-
                 resetCheckBox();
             }
         }
@@ -543,8 +556,21 @@ namespace ProjectFinal2195109
         //Cancel the creation of the recipe
         private void btnCancelRecipeCreation_Click(object sender, RoutedEventArgs e)
         {
-            var result = MessageBox.Show("Etez-vous certain de vouloir annuler la creation de cette recette?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (result == MessageBoxResult.Yes)
+            CustomMaterialMessageBox msg = new CustomMaterialMessageBox
+            {
+                Width = 400,
+                TxtTitle = { Text = "Confirmation", Foreground = Brushes.White },
+                TxtMessage = { Text = "Etez-vous certain de vouloir annuler la creation de cette recette?", Foreground = Brushes.Black },
+                BtnOk = { Content = "Oui", Background = new SolidColorBrush(Color.FromArgb(255, 63, 72, 204)), BorderBrush = new SolidColorBrush(Color.FromArgb(255, 63, 72, 204)) },
+                BtnCancel = { Content = "Non", Background = Brushes.White, Foreground = new SolidColorBrush(Color.FromArgb(255, 63, 72, 204)), BorderBrush = Brushes.White },
+                MainContentControl = { Background = Brushes.White },
+                TitleBackgroundPanel = { Background = new SolidColorBrush(Color.FromArgb(255, 63, 72, 204)) },
+                BorderBrush = new SolidColorBrush(Color.FromArgb(255, 63, 72, 204))
+            };
+            msg.Show();
+            MessageBoxResult results = msg.Result;
+            //var result = MessageBox.Show("Etez-vous certain de vouloir annuler la creation de cette recette?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (results == MessageBoxResult.OK)
             {
                 clearTextBox();
                 recipeCreationPage.Visibility = Visibility.Hidden;
@@ -557,18 +583,14 @@ namespace ProjectFinal2195109
 
         public void resetCheckBox()
         {
-            if (checkBoxList.Count > 0)
-                foreach (CheckBox checkBox in checkBoxList)
+            foreach (CheckBox checkBox in checkBoxList)
+            {
+                if (dbContext.Recipes.First(x => x.RecipeId == Convert.ToInt32(checkBox.Uid)).IsActive == true)
                 {
-                    if (dbContext.Recipes.First(x => x.RecipeId == Convert.ToInt32(checkBox.Uid)).IsActive == true)
-                    {
-                        checkBox.IsChecked = false;
-                        checkBox.IsChecked = true;
-                    }
+                    checkBox.IsChecked = false;
+                    checkBox.IsChecked = true;
                 }
-
-
-
+            }
         }
 
         /************************/

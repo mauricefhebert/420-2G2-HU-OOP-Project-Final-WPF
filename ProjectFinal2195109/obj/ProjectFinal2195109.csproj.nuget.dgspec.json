@@ -52,6 +52,10 @@
               "target": "Package",
               "version": "[0.2.1, )"
             },
+            "MaterialMessageBox": {
+              "target": "Package",
+              "version": "[4.0.2, )"
+            },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[6.0.3, )"

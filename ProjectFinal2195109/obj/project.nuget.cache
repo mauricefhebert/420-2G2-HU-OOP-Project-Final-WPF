@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "J1ZsUkpinThZQjlcwb9KkNBN+bZ3Uwgo049XByPd2TmROVo8Gb0lx+8huRnwqLlPjPsDHUTBlJiqEZqx7O2IVw==",
+  "dgSpecHash": "b7T5swgGOuRzIR+NJbqMe4i05iJYpMynl73sirUqWsyW3LjgKezpgf6v2b/uy/OQxEDwo6JIdevNlb/Ncz44hw==",
   "success": true,
   "projectFilePath": "E:\\Cegep-Course\\Session-2\\Object-Oriented\\Project\\ProjectFinalOOPWPF\\ProjectFinal2195109\\ProjectFinal2195109.csproj",
   "expectedPackageFiles": [
@@ -10,6 +10,7 @@
     "C:\\Users\\Mauri\\.nuget\\packages\\materialdesigncolors\\2.0.5\\materialdesigncolors.2.0.5.nupkg.sha512",
     "C:\\Users\\Mauri\\.nuget\\packages\\materialdesignthemes\\4.4.0\\materialdesignthemes.4.4.0.nupkg.sha512",
     "C:\\Users\\Mauri\\.nuget\\packages\\materialdesignthemes.mahapps\\0.2.1\\materialdesignthemes.mahapps.0.2.1.nupkg.sha512",
+    "C:\\Users\\Mauri\\.nuget\\packages\\materialmessagebox\\4.0.2\\materialmessagebox.4.0.2.nupkg.sha512",
     "C:\\Users\\Mauri\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
     "C:\\Users\\Mauri\\.nuget\\packages\\microsoft.data.sqlclient\\2.1.4\\microsoft.data.sqlclient.2.1.4.nupkg.sha512",
     "C:\\Users\\Mauri\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\2.1.1\\microsoft.data.sqlclient.sni.runtime.2.1.1.nupkg.sha512",
@@ -38,7 +39,7 @@
     "C:\\Users\\Mauri\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
     "C:\\Users\\Mauri\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\Mauri\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
-    "C:\\Users\\Mauri\\.nuget\\packages\\microsoft.xaml.behaviors.wpf\\1.1.19\\microsoft.xaml.behaviors.wpf.1.1.19.nupkg.sha512",
+    "C:\\Users\\Mauri\\.nuget\\packages\\microsoft.xaml.behaviors.wpf\\1.1.31\\microsoft.xaml.behaviors.wpf.1.1.31.nupkg.sha512",
     "C:\\Users\\Mauri\\.nuget\\packages\\system.collections.immutable\\6.0.0\\system.collections.immutable.6.0.0.nupkg.sha512",
     "C:\\Users\\Mauri\\.nuget\\packages\\system.configuration.configurationmanager\\4.7.0\\system.configuration.configurationmanager.4.7.0.nupkg.sha512",
     "C:\\Users\\Mauri\\.nuget\\packages\\system.diagnostics.diagnosticsource\\6.0.0\\system.diagnostics.diagnosticsource.6.0.0.nupkg.sha512",
