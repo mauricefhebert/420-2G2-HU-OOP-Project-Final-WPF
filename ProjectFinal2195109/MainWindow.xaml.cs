@@ -17,6 +17,10 @@ using System.Windows.Shapes;
 
 namespace ProjectFinal2195109
 {
+    //on delete of a recipe the checkbox reset -bugfix
+    //Confirmation 2025
+    //List ingrediant better display
+    //
     public partial class MainWindow : Window
     {
         FoodManagerDbContext dbContext = new FoodManagerDbContext();
@@ -86,7 +90,7 @@ namespace ProjectFinal2195109
             Application.Current.Shutdown();
         }
 
-        //Remette tous les TextBox a null
+        //Reset all the text box -> to be refractored
         public void clearTextBox()
         {
             txtUsernameLoginPage.Clear();
@@ -101,14 +105,14 @@ namespace ProjectFinal2195109
 
         //Login page
 
-        //Permet la navigation vers la page de creation de compte
+        //Allow the navigation to account creation page
         private void btnSignup_Click(object sender, RoutedEventArgs e)
         {
             loginPage.Visibility = Visibility.Hidden;
             createAccountPage.Visibility = Visibility.Visible;
         }
 
-        //Si l'utilisateur existe permet la navigation sinon lance une erreur
+        //If user existe allow the login, Otherwise throw display an error message
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
 
@@ -142,13 +146,14 @@ namespace ProjectFinal2195109
         }
 
         //Create account page
-
-        //Permet la navigation vers la page de connection
+        //Navigation to login page
         private void btnGoToLoginPage_Click(object sender, RoutedEventArgs e)
         {
             createAccountPage.Visibility = Visibility.Hidden;
             loginPage.Visibility = Visibility.Visible;
         }
+
+        //If all the validation pass create the user, otherwise notify user of the correction needed
         private void btnConfirmSignUp_Click(object sender, RoutedEventArgs e)
         {
             User user = new User()
@@ -175,9 +180,7 @@ namespace ProjectFinal2195109
             }
         }
 
-        /**
-         * Pour les trois fonction fait la validation du champs selon certain condition et affiche un message d'erreur
-         */
+        //Error validation function for the create account form
         public bool validationCourriel()
         {
             bool valid = false;
@@ -238,6 +241,7 @@ namespace ProjectFinal2195109
         }
 
         //Recipe List page
+        //Display the recipe for the specific user
         public void displayRecipeList()
         {
             recipeList.Children.Clear();
@@ -346,6 +350,9 @@ namespace ProjectFinal2195109
         {
             string id = ((Button)sender).Uid;
             var recipe = dbContext.Recipes.First(x => x.RecipeId == int.Parse(id));
+            //Need to remove the item from the shopping list first
+            recipe.IsActive = false;
+            dbContext.ListItems.Where(x => x.RecipeId == int.Parse(id)).ToList().ForEach(x => dbContext.ListItems.Remove(x));
             dbContext.Recipes.Remove(recipe);
             dbContext.SaveChanges();
             displayRecipeList();
@@ -382,10 +389,11 @@ namespace ProjectFinal2195109
         {
             foreach (var checkBox in checkBoxList)
             {
-                if (dbContext.Recipes.First(x => x.RecipeId == int.Parse(checkBox.Uid)).IsActive == true)
-                {
-                    checkBox.IsChecked = true;
-                }
+                if (checkBoxList.Count() > 0)
+                    if (dbContext.Recipes.First(x => x.RecipeId == int.Parse(checkBox.Uid)).IsActive == true)
+                    {
+                        checkBox.IsChecked = true;
+                    }
             }
         }
 
@@ -393,6 +401,7 @@ namespace ProjectFinal2195109
         {
             recipeListPage.Visibility = Visibility.Hidden;
             shoppingListPage.Visibility = Visibility.Visible;
+            shoppingListData.ItemsSource = null;
             var query = from user in dbContext.Users
                         join shoppingList in dbContext.ShoppingLists on user.UserId equals shoppingList.UserId
                         join listItem in dbContext.ListItems on shoppingList.ShoppingListId equals listItem.ShoppingListId
@@ -509,6 +518,7 @@ namespace ProjectFinal2195109
                 recipeListPage.Visibility = Visibility.Visible;
                 displayRecipeList();
                 clearTextBox();
+                getCheckBoxValue();
             }
         }
 
