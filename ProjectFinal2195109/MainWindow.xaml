@@ -10,7 +10,6 @@
     Height="800"
     AllowsTransparency="True"
     Background="{x:Null}"
-    Loaded="Window_Loaded"
     WindowStartupLocation="CenterScreen"
     WindowStyle="None"
     mc:Ignorable="d">

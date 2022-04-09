@@ -17,13 +17,6 @@ using System.Windows.Shapes;
 
 namespace ProjectFinal2195109
 {
-
-    /// <summary>
-    /// 1. Need to figure out how to delete item from shopping list when checkbox is unchecked
-    /// 2. the source for the data list is now working i only need to limit is range to the active recipe -> add a bool value to recipe and toggle the recipe to 
-    /// on or off with the checkbox
-    /// </summary>
-
     public partial class MainWindow : Window
     {
         FoodManagerDbContext dbContext = new FoodManagerDbContext();
@@ -34,6 +27,7 @@ namespace ProjectFinal2195109
         }
         int currentUserNumber = 0;
         int currentUserShoppingList = 0;
+        List<CheckBox> checkBoxList = new List<CheckBox>(8);
 
         //Theme
 
@@ -62,11 +56,6 @@ namespace ProjectFinal2195109
         }
 
         //Global
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            //loginPage.Visibility = Visibility.Visible;
-        }
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (recipeCreationPage.Visibility == Visibility.Visible)
@@ -180,6 +169,7 @@ namespace ProjectFinal2195109
                 dbContext.ShoppingLists.Add(shoppingList);
                 dbContext.SaveChanges();
                 currentUserShoppingList = shoppingList.ShoppingListId;
+                displayRecipeList();
                 createAccountPage.Visibility = Visibility.Hidden;
                 recipeListPage.Visibility = Visibility.Visible;
             }
@@ -318,6 +308,7 @@ namespace ProjectFinal2195109
                     checkBox.Unchecked += new RoutedEventHandler(removeRecipeIngrediantFromRecipeList_Checked);
 
 
+
                     //Create a stack panel for the icon
                     StackPanel stackPanel = new StackPanel();
                     stackPanel.Orientation = Orientation.Horizontal;
@@ -343,6 +334,8 @@ namespace ProjectFinal2195109
                     grid.Children.Add(stackPanel);
                     //Add the element to the page☻
                     recipeList.Children.Add(grid);
+
+                    checkBoxList.Add(checkBox);
                 }
             }
         }
@@ -387,16 +380,13 @@ namespace ProjectFinal2195109
 
         void getCheckBoxValue()
         {
-            List<CheckBox> list = new List<CheckBox>();
-            var children = LogicalTreeHelper.GetChildren(recipeList);
-            foreach (var item in children)
+            foreach (var checkBox in checkBoxList)
             {
-                var chkCast = item as CheckBox;
-                MessageBox.Show(chkCast.Uid);
+                if (dbContext.Recipes.First(x => x.RecipeId == int.Parse(checkBox.Uid)).IsActive == true)
+                {
+                    checkBox.IsChecked = true;
+                }
             }
-
-
-            dbContext.Recipes.Where(x => x.IsActive == true).ToList();
         }
 
         private void btnGoToShoppingList_Click(object sender, RoutedEventArgs e)
@@ -543,7 +533,5 @@ namespace ProjectFinal2195109
             shoppingListPage.Visibility = Visibility.Hidden;
             recipeListPage.Visibility = Visibility.Visible;
         }
-
-
     }
 }
