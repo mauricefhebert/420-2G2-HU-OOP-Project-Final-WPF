@@ -17,10 +17,6 @@ using System.Windows.Shapes;
 
 namespace ProjectFinal2195109
 {
-    //on delete of a recipe the checkbox reset -bugfix
-    //Confirmation 2025
-    //List ingrediant better display
-    //
     public partial class MainWindow : Window
     {
         FoodManagerDbContext dbContext = new FoodManagerDbContext();
@@ -34,7 +30,6 @@ namespace ProjectFinal2195109
         List<CheckBox> checkBoxList = new List<CheckBox>(8);
 
         //Theme
-
         //Allow the change of the theme with a toggle button
         public bool IsDarkTheme { get; set; }
         private readonly PaletteHelper paletteHelper = new PaletteHelper();
@@ -59,13 +54,14 @@ namespace ProjectFinal2195109
             DragMove();
         }
 
-        //Global
+        /*****************/
+        /******GLOBAL*****/
+        /*****************/
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (recipeCreationPage.Visibility == Visibility.Visible)
             {
-                var lastRecipe = dbContext.Recipes.OrderBy(x => x.RecipeId).Last();
-                dbContext.Recipes.Remove(lastRecipe);
+                removeRecipeIfNotConfirm();
                 dbContext.SaveChanges();
             }
             foreach (Grid x in Container.Children)
@@ -83,11 +79,16 @@ namespace ProjectFinal2195109
         {
             if (recipeCreationPage.Visibility == Visibility.Visible)
             {
-                var lastRecipe = dbContext.Recipes.OrderBy(x => x.RecipeId).Last();
-                dbContext.Recipes.Remove(lastRecipe);
+                removeRecipeIfNotConfirm();
                 dbContext.SaveChanges();
             }
             Application.Current.Shutdown();
+        }
+
+        public void removeRecipeIfNotConfirm()
+        {
+            var lastRecipe = dbContext.Recipes.OrderBy(x => x.RecipeId).Last();
+            dbContext.Recipes.Remove(lastRecipe);
         }
 
         //Reset all the text box -> to be refractored
@@ -103,7 +104,9 @@ namespace ProjectFinal2195109
             txtCourrielCreateAccountPage.Clear();
         }
 
-        //Login page
+        /*****************/
+        /****LOGIN PAGE***/
+        /*****************/
 
         //Allow the navigation to account creation page
         private void btnSignup_Click(object sender, RoutedEventArgs e)
@@ -115,7 +118,6 @@ namespace ProjectFinal2195109
         //If user existe allow the login, Otherwise throw display an error message
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
-
             var Username = txtUsernameLoginPage.Text;
             var Password = txtPasswordLoginPage.Password;
 
@@ -125,13 +127,12 @@ namespace ProjectFinal2195109
                 recipeListPage.Visibility = Visibility.Visible;
                 errorUsernameLogin.Visibility = Visibility.Hidden;
                 errorPasswordLogin.Visibility = Visibility.Hidden;
-                User user = new User();
-                user = dbContext.Users.First(u => u.Username == Username);
-                currentUserNumber = user.UserId;
-                currentUserShoppingList = dbContext.ShoppingLists.FirstOrDefault(x => x.UserId == user.UserId).ShoppingListId;
+                var id = dbContext.Users.First(u => u.Username == Username).UserId;
+                currentUserNumber = id;
+                currentUserShoppingList = dbContext.ShoppingLists.First(x => x.UserId == id).ShoppingListId;
                 clearTextBox();
                 displayRecipeList();
-                getCheckBoxValue();
+                resetCheckBox();
             }
             else if (!dbContext.Users.Any(u => u.Username == Username))
             {
@@ -142,10 +143,11 @@ namespace ProjectFinal2195109
                 errorUsernameLogin.Visibility = Visibility.Hidden;
                 errorPasswordLogin.Visibility = Visibility.Visible;
             }
-
         }
 
-        //Create account page
+        /************************/
+        /**CREATE ACCOUNT PAGE**/
+        /***********************/
         //Navigation to login page
         private void btnGoToLoginPage_Click(object sender, RoutedEventArgs e)
         {
@@ -174,7 +176,6 @@ namespace ProjectFinal2195109
                 dbContext.ShoppingLists.Add(shoppingList);
                 dbContext.SaveChanges();
                 currentUserShoppingList = shoppingList.ShoppingListId;
-                displayRecipeList();
                 createAccountPage.Visibility = Visibility.Hidden;
                 recipeListPage.Visibility = Visibility.Visible;
             }
@@ -240,7 +241,9 @@ namespace ProjectFinal2195109
             return valid;
         }
 
-        //Recipe List page
+        /************************/
+        /****RECIPE LIST PAGE****/
+        /***********************/
         //Display the recipe for the specific user
         public void displayRecipeList()
         {
@@ -273,7 +276,6 @@ namespace ProjectFinal2195109
                     //Add the column to the definition
                     grid.ColumnDefinitions.Add(colDef1);
                     grid.ColumnDefinitions.Add(colDef2);
-
                     //Set the width of the grid column
                     colDef2.Width = new GridLength(0, GridUnitType.Auto);
 
@@ -343,64 +345,65 @@ namespace ProjectFinal2195109
                 }
             }
         }
-        //Object sender = la source de l`evenement (le bouton, le checkbox, le textbox etc....)
-        //EventArgs e = information supplementaire sur l`evenement
-        //RoutedEventHandler = pour ajouter l`evenement au boutton -> controlsNameOrUid.EventToHandle += new RoutedEventHandler(nomDeLaMethodAExecuter);
+
+        //Delete a recipe
         void deleteRecipe_Click(object sender, EventArgs e)
         {
             string id = ((Button)sender).Uid;
             var recipe = dbContext.Recipes.First(x => x.RecipeId == int.Parse(id));
-            //Need to remove the item from the shopping list first
             recipe.IsActive = false;
             dbContext.ListItems.Where(x => x.RecipeId == int.Parse(id)).ToList().ForEach(x => dbContext.ListItems.Remove(x));
             dbContext.Recipes.Remove(recipe);
             dbContext.SaveChanges();
+            var index = checkBoxList.FindIndex(x => x.Uid == id);
+            checkBoxList.RemoveAt(index);
             displayRecipeList();
+            resetCheckBox();
         }
 
+        //Add recipe ingrediant to the recipe
         void addRecipeIngrediantToRecipeList_Checked(object sender, EventArgs e)
         {
             string id = ((CheckBox)sender).Uid;
-            dbContext.Recipes.FirstOrDefault(x => x.RecipeId == int.Parse(id)).IsActive = true;
+            dbContext.Recipes.First(x => x.RecipeId == int.Parse(id)).IsActive = true;
             dbContext.SaveChanges();
-            foreach (var ingrediant in dbContext.Ingrediants)
+            if (!dbContext.ListItems.Any(x => x.RecipeId == int.Parse(id)))
             {
-                if (ingrediant.RecipeId == int.Parse(id))
+                foreach (var ingrediant in dbContext.Ingrediants)
                 {
-                    ListItem item = new ListItem();
-                    item.ShoppingListId = currentUserShoppingList;
-                    item.IngrediantId = ingrediant.IngrediantId;
-                    item.RecipeId = int.Parse(id);
-                    dbContext.ListItems.Add(item);
+                    if (ingrediant.RecipeId == int.Parse(id))
+                    {
+                        ListItem item = new ListItem();
+                        item.ShoppingListId = currentUserShoppingList;
+                        item.IngrediantId = ingrediant.IngrediantId;
+                        item.RecipeId = int.Parse(id);
+                        dbContext.ListItems.Add(item);
+                    }
                 }
             }
             dbContext.SaveChanges();
         }
 
+        //Remove recipe ingrediant from the recipe
         void removeRecipeIngrediantFromRecipeList_Checked(object sender, EventArgs e)
         {
             string id = ((CheckBox)sender).Uid;
-            dbContext.Recipes.FirstOrDefault(x => x.RecipeId == int.Parse(id)).IsActive = false;
+            dbContext.Recipes.First(x => x.RecipeId == int.Parse(id)).IsActive = false;
             dbContext.ListItems.Where(x => x.RecipeId == int.Parse(id)).ToList().ForEach(x => dbContext.ListItems.Remove(x));
             dbContext.SaveChanges();
         }
 
-        void getCheckBoxValue()
-        {
-            foreach (var checkBox in checkBoxList)
-            {
-                if (checkBoxList.Count() > 0)
-                    if (dbContext.Recipes.First(x => x.RecipeId == int.Parse(checkBox.Uid)).IsActive == true)
-                    {
-                        checkBox.IsChecked = true;
-                    }
-            }
-        }
-
+        //Navigation to the shopping list page
         private void btnGoToShoppingList_Click(object sender, RoutedEventArgs e)
         {
             recipeListPage.Visibility = Visibility.Hidden;
             shoppingListPage.Visibility = Visibility.Visible;
+            createShoppingList();
+        }
+
+        //Generate the shopping list
+        public void createShoppingList()
+        {
             shoppingListData.ItemsSource = null;
             var query = from user in dbContext.Users
                         join shoppingList in dbContext.ShoppingLists on user.UserId equals shoppingList.UserId
@@ -419,14 +422,20 @@ namespace ProjectFinal2195109
             {
                 shoppingListData.ItemsSource = list;
             }
-
         }
 
+        //Navigate to the recipe creation page
         private void btnAddRecipeCreation_Click(object sender, RoutedEventArgs e)
         {
-            Recipe recipe = new Recipe();
             recipeListPage.Visibility = Visibility.Hidden;
             recipeCreationPage.Visibility = Visibility.Visible;
+            createEmptyRecipe();
+        }
+
+        //Create a empty recipe for later use
+        public void createEmptyRecipe()
+        {
+            Recipe recipe = new Recipe();
             recipe.Title = "";
             recipe.Description = "";
             recipe.UserId = currentUserNumber;
@@ -435,7 +444,9 @@ namespace ProjectFinal2195109
             clearTextBox();
         }
 
-        //Recipe creation page
+        /************************/
+        /**RECIPE CREATION PAGE**/
+        /***********************/
         public void createTextBoxForRecipeCreation()
         {
             //Text box for ingrediant
@@ -476,31 +487,37 @@ namespace ProjectFinal2195109
             recipeCreationForm.Children.Add(textBoxUnit);
         }
 
-        //Permette l'ajoute de un field pour un ingrediant
+        //Create some textbox to add a ingrediant to the recipe
         private void btnAddIngrediantRecipeCreation_Click(object sender, RoutedEventArgs e)
         {
             createTextBoxForRecipeCreation();
         }
 
+        //create some ingrediant with every textbox in the list
         public void createIngrediants()
         {
             for (int x = 1; x < recipeCreationForm.Children.Count / 3; x++)
             {
+                //Skip the first 3 textbox then get the value of all the created checkbox on every loop go to the next text box
                 var name = ((TextBox)recipeCreationForm.Children[x * 3]).Text;
                 var quantity = ((TextBox)recipeCreationForm.Children[x * 3 + 1]).Text;
                 var unit = ((TextBox)recipeCreationForm.Children[x * 3 + 2]).Text;
-                Ingrediant i = new Ingrediant()
+                //Confirm that no text box are empty if they are empty skip the ingrediant else create the ingrediant
+                if (name != string.Empty && quantity != string.Empty && unit != string.Empty)
                 {
-                    RecipeId = dbContext.Recipes.OrderBy(x => x.RecipeId).Last().RecipeId,
-                    IngrediantName = name,
-                    IngrediantQuantity = int.Parse(quantity),
-                    IngrediantMeasurementUnit = unit,
-                };
-                dbContext.Ingrediants.Add(i);
+                    Ingrediant i = new Ingrediant()
+                    {
+                        RecipeId = dbContext.Recipes.OrderBy(x => x.RecipeId).Last().RecipeId,
+                        IngrediantName = name,
+                        IngrediantQuantity = int.Parse(quantity),
+                        IngrediantMeasurementUnit = unit,
+                    };
+                    dbContext.Ingrediants.Add(i);
+                }
             }
         }
 
-        //Confirm la creation de la recette
+        //Confirm the recipe creation
         private void btnConfirmRecipeCreation_Click(object sender, RoutedEventArgs e)
         {
             var lastRecipe = dbContext.Recipes.OrderBy(x => x.RecipeId).Last();
@@ -518,10 +535,12 @@ namespace ProjectFinal2195109
                 recipeListPage.Visibility = Visibility.Visible;
                 displayRecipeList();
                 clearTextBox();
-                getCheckBoxValue();
+
+                resetCheckBox();
             }
         }
 
+        //Cancel the creation of the recipe
         private void btnCancelRecipeCreation_Click(object sender, RoutedEventArgs e)
         {
             var result = MessageBox.Show("Etez-vous certain de vouloir annuler la creation de cette recette?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
@@ -536,7 +555,25 @@ namespace ProjectFinal2195109
             }
         }
 
-        //Shopping list page
+        public void resetCheckBox()
+        {
+            if (checkBoxList.Count > 0)
+                foreach (CheckBox checkBox in checkBoxList)
+                {
+                    if (dbContext.Recipes.First(x => x.RecipeId == Convert.ToInt32(checkBox.Uid)).IsActive == true)
+                    {
+                        checkBox.IsChecked = false;
+                        checkBox.IsChecked = true;
+                    }
+                }
+
+
+
+        }
+
+        /************************/
+        /***SHOPPING LIST PAGE***/
+        /***********************/
 
         private void btnGoToRecipePage_Click(object sender, RoutedEventArgs e)
         {

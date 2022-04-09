@@ -19,3 +19,8 @@ select * from Ingrediant
 
 select * from Shopping_List
 select * from List_Item
+
+
+        //Object sender = la source de l`evenement (le bouton, le checkbox, le textbox etc....)
+        //EventArgs e = information supplementaire sur l`evenement
+        //RoutedEventHandler = pour ajouter l`evenement au boutton -> controlsNameOrUid.EventToHandle += new RoutedEventHandler(nomDeLaMethodAExecuter);
